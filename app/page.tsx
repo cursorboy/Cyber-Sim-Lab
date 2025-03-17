@@ -14,9 +14,6 @@ export default function Home() {
             <span>Cyber Sim Lab</span>
           </div>
           <nav className="ml-auto flex gap-4 sm:gap-6">
-            <Link href="#" className="text-sm font-medium transition-colors hover:text-primary">
-              Features
-            </Link>
             <Link href="/scenarios" className="text-sm font-medium transition-colors hover:text-primary">
               Scenarios
             </Link>
@@ -47,7 +44,7 @@ export default function Home() {
                       Start Training <ArrowRight className="h-5 w-5" />
                     </Button>
                   </Link>
-                  <Link href="/learn">
+                  <Link href="/resources">
                     <Button size="lg" variant="outline" className="hover:bg-muted transition-colors duration-200">
                       Learn More
                     </Button>
