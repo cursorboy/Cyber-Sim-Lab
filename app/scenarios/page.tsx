@@ -1,156 +1,286 @@
 import Link from "next/link"
-import { ArrowLeft, Shield, Terminal, Zap } from "lucide-react"
+import { ArrowLeft, Clock, Shield, Terminal, Zap } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function ScenariosPage() {
-  const scenarios = [
-    {
-      title: "Network Intrusion",
-      description: "Detect and respond to unauthorized network access",
-      difficulty: "Beginner",
-      duration: "30-45 min",
-      completion: "0%",
-      icon: Zap,
-      href: "/scenarios/network-intrusion",
-      category: "Network"
-    },
-    {
-      title: "Ransomware Response",
-      description: "Contain and recover from a ransomware attack",
-      difficulty: "Intermediate",
-      duration: "45-60 min",
-      completion: "0%",
-      icon: Shield,
-      href: "/scenarios/ransomware-response",
-      category: "Malware"
-    },
-    {
-      title: "Phishing Detection",
-      description: "Identify and handle phishing attempts",
-      difficulty: "Beginner",
-      duration: "20-30 min",
-      completion: "0%",
-      icon: Terminal,
-      href: "/scenarios/phishing-detection",
-      category: "Social Engineering"
-    },
-    {
-      title: "Data Exfiltration",
-      description: "Detect and prevent unauthorized data transfer",
-      difficulty: "Advanced",
-      duration: "60-90 min",
-      completion: "0%",
-      icon: Zap,
-      href: "/scenarios/data-exfiltration",
-      category: "Network"
-    },
-    {
-      title: "Privilege Escalation",
-      description: "Identify and mitigate unauthorized access elevation",
-      difficulty: "Intermediate",
-      duration: "45-60 min",
-      completion: "0%",
-      icon: Shield,
-      href: "/scenarios/privilege-escalation",
-      category: "Malware"
-    },
-    {
-      title: "Incident Response",
-      description: "Coordinate a full security incident response",
-      difficulty: "Advanced",
-      duration: "90-120 min",
-      completion: "0%",
-      icon: Terminal,
-      href: "/scenarios/incident-response",
-      category: "Forensics"
-    }
-  ]
-
-  const categories = ["All Scenarios", "Network", "Malware", "Social Engineering", "Forensics"]
-
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-        <div className="container flex h-16 items-center px-4 md:px-6 max-w-7xl mx-auto">
+      <header className="bg-background border-b">
+        <div className="container flex h-16 items-center px-4 md:px-6">
           <div className="flex items-center gap-2 font-semibold">
             <Shield className="h-6 w-6 text-primary" />
             <span>Cyber Sim Lab</span>
           </div>
           <nav className="ml-auto flex gap-4 sm:gap-6">
-            <Link href="/scenarios" className="text-sm font-medium transition-colors hover:text-primary">
+            <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">
+              Features
+            </Link>
+            <Link href="/scenarios" className="text-sm font-medium hover:underline underline-offset-4">
               Scenarios
             </Link>
-            <Link href="/resources" className="text-sm font-medium transition-colors hover:text-primary">
+            <Link href="/resources" className="text-sm font-medium hover:underline underline-offset-4">
               Resources
             </Link>
           </nav>
         </div>
       </header>
-      <main className="flex-1">
-        <div className="container max-w-7xl mx-auto px-4 md:px-6 py-8">
-          <div className="flex items-center gap-4 mb-8">
-            <Link href="/">
-              <Button variant="ghost" size="sm" className="gap-2">
-                <ArrowLeft className="h-4 w-4" /> Back
-              </Button>
-            </Link>
-            <h1 className="text-3xl font-bold">Training Scenarios</h1>
-          </div>
-          
-          <div className="flex gap-4 mb-8 overflow-x-auto pb-2">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant="outline"
-                className="shrink-0"
-                size="sm"
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {scenarios.map((scenario) => {
-              const Icon = scenario.icon
-              return (
-                <Link 
-                  key={scenario.title} 
-                  href={scenario.href}
-                  className="group"
-                >
-                  <div className="rounded-lg border border-primary/20 p-6 hover:shadow-lg transition-all duration-200 h-full flex flex-col">
-                    <div className="h-40 rounded-md bg-muted/50 flex items-center justify-center group-hover:bg-muted/70 transition-colors duration-200 mb-6">
-                      <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                        <Icon className="h-8 w-8 text-primary" />
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between mb-2">
-                        <h3 className="font-semibold">{scenario.title}</h3>
-                        <span className={`text-xs px-2 py-1 rounded-full ${
-                          scenario.difficulty === "Beginner" ? "bg-green-100 text-green-700" :
-                          scenario.difficulty === "Intermediate" ? "bg-yellow-100 text-yellow-700" :
-                          "bg-red-100 text-red-700"
-                        }`}>
-                          {scenario.difficulty}
-                        </span>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-4">{scenario.description}</p>
-                      <div className="flex items-center justify-between text-sm text-muted-foreground">
-                        <span>{scenario.duration}</span>
-                        <span>Completion: {scenario.completion}</span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              )
-            })}
-          </div>
+      <main className="flex-1 container py-8">
+        <div className="flex items-center mb-8">
+          <Link href="/">
+            <Button variant="ghost" size="sm" className="gap-1">
+              <ArrowLeft className="h-4 w-4" /> Back
+            </Button>
+          </Link>
+          <h1 className="text-3xl font-bold ml-4">Training Scenarios</h1>
         </div>
+
+        <Tabs defaultValue="all" className="w-full">
+          <TabsList className="mb-6">
+            <TabsTrigger value="all">All Scenarios</TabsTrigger>
+            <TabsTrigger value="network">Network</TabsTrigger>
+            <TabsTrigger value="malware">Malware</TabsTrigger>
+            <TabsTrigger value="social">Social Engineering</TabsTrigger>
+            <TabsTrigger value="forensics">Forensics</TabsTrigger>
+          </TabsList>
+          <TabsContent value="all" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Link href="/scenarios/network-intrusion">
+                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <CardTitle>Network Intrusion</CardTitle>
+                      <div className="bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-full">
+                        Beginner
+                      </div>
+                    </div>
+                    <CardDescription>Detect and respond to unauthorized network access</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="h-32 rounded-md bg-muted flex items-center justify-center">
+                        <Zap className="h-10 w-10 text-muted-foreground/60" />
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-muted-foreground">30-45 min</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="text-muted-foreground">Completion:</span>
+                          <span className="font-medium">0%</span>
+                        </div>
+                      </div>
+                      <Progress value={0} className="h-2" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link href="/scenarios/ransomware-response">
+                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <CardTitle>Ransomware Response</CardTitle>
+                      <div className="bg-orange-500/10 text-orange-500 text-xs font-medium px-2 py-1 rounded-full">
+                        Intermediate
+                      </div>
+                    </div>
+                    <CardDescription>Contain and recover from a ransomware attack</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="h-32 rounded-md bg-muted flex items-center justify-center">
+                        <Shield className="h-10 w-10 text-muted-foreground/60" />
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-muted-foreground">45-60 min</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="text-muted-foreground">Completion:</span>
+                          <span className="font-medium">0%</span>
+                        </div>
+                      </div>
+                      <Progress value={0} className="h-2" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link href="/scenarios/phishing-detection">
+                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <CardTitle>Phishing Detection</CardTitle>
+                      <div className="bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-full">
+                        Beginner
+                      </div>
+                    </div>
+                    <CardDescription>Identify and handle phishing attempts</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="h-32 rounded-md bg-muted flex items-center justify-center">
+                        <Terminal className="h-10 w-10 text-muted-foreground/60" />
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-muted-foreground">20-30 min</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="text-muted-foreground">Completion:</span>
+                          <span className="font-medium">0%</span>
+                        </div>
+                      </div>
+                      <Progress value={0} className="h-2" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link href="/scenarios/data-exfiltration">
+                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <CardTitle>Data Exfiltration</CardTitle>
+                      <div className="bg-red-500/10 text-red-500 text-xs font-medium px-2 py-1 rounded-full">
+                        Advanced
+                      </div>
+                    </div>
+                    <CardDescription>Detect and prevent unauthorized data transfer</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="h-32 rounded-md bg-muted flex items-center justify-center">
+                        <Zap className="h-10 w-10 text-muted-foreground/60" />
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-muted-foreground">60-90 min</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="text-muted-foreground">Completion:</span>
+                          <span className="font-medium">0%</span>
+                        </div>
+                      </div>
+                      <Progress value={0} className="h-2" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link href="/scenarios/privilege-escalation">
+                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <CardTitle>Privilege Escalation</CardTitle>
+                      <div className="bg-orange-500/10 text-orange-500 text-xs font-medium px-2 py-1 rounded-full">
+                        Intermediate
+                      </div>
+                    </div>
+                    <CardDescription>Identify and mitigate unauthorized access elevation</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="h-32 rounded-md bg-muted flex items-center justify-center">
+                        <Shield className="h-10 w-10 text-muted-foreground/60" />
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-muted-foreground">45-60 min</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="text-muted-foreground">Completion:</span>
+                          <span className="font-medium">0%</span>
+                        </div>
+                      </div>
+                      <Progress value={0} className="h-2" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link href="/scenarios/incident-response">
+                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <CardTitle>Incident Response</CardTitle>
+                      <div className="bg-red-500/10 text-red-500 text-xs font-medium px-2 py-1 rounded-full">
+                        Advanced
+                      </div>
+                    </div>
+                    <CardDescription>Coordinate a full security incident response</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="h-32 rounded-md bg-muted flex items-center justify-center">
+                        <Terminal className="h-10 w-10 text-muted-foreground/60" />
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-muted-foreground">90-120 min</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="text-muted-foreground">Completion:</span>
+                          <span className="font-medium">0%</span>
+                        </div>
+                      </div>
+                      <Progress value={0} className="h-2" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            </div>
+          </TabsContent>
+          <TabsContent value="network">
+            {/* Network specific scenarios would go here */}
+            <div className="text-center py-12">
+              <div className="inline-block bg-primary/10 text-primary font-medium px-3 py-1 rounded-md mb-4">
+                Coming Soon
+              </div>
+              <p className="text-muted-foreground">New network security scenarios are currently in development.</p>
+            </div>
+          </TabsContent>
+          <TabsContent value="malware">
+            {/* Malware specific scenarios would go here */}
+            <div className="text-center py-12">
+              <div className="inline-block bg-primary/10 text-primary font-medium px-3 py-1 rounded-md mb-4">
+                Coming Soon
+              </div>
+              <p className="text-muted-foreground">New malware security scenarios are currently in development.</p>
+            </div>
+          </TabsContent>
+          <TabsContent value="social">
+            {/* Social engineering specific scenarios would go here */}
+            <div className="text-center py-12">
+              <div className="inline-block bg-primary/10 text-primary font-medium px-3 py-1 rounded-md mb-4">
+                Coming Soon
+              </div>
+              <p className="text-muted-foreground">New social security scenarios are currently in development.</p>
+            </div>
+          </TabsContent>
+          <TabsContent value="forensics">
+            {/* Forensics specific scenarios would go here */}
+            <div className="text-center py-12">
+              <div className="inline-block bg-primary/10 text-primary font-medium px-3 py-1 rounded-md mb-4">
+                Coming Soon
+              </div>
+              <p className="text-muted-foreground">New forensics security scenarios are currently in development.</p>
+            </div>
+          </TabsContent>
+        </Tabs>
       </main>
       <footer className="border-t bg-muted/40">
-        <div className="container py-6 text-center text-sm text-muted-foreground max-w-7xl mx-auto px-4 md:px-6">
+        <div className="container py-6 text-center text-sm text-muted-foreground">
           © 2025 Cyber Sim Lab. All rights reserved.
         </div>
       </footer>
