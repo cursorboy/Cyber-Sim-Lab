@@ -1,39 +1,49 @@
 import Link from "next/link"
 import { ArrowRight, Shield, Terminal, Zap } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import TerminalWrapper from "@/components/TerminalWrapper"
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1">
+        {/* Hero Section */}
         <section className="py-20">
           <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
-                Master Cybersecurity Through Simulation
-              </h1>
-              <p className="text-xl text-muted-foreground mb-8">
-                Practice defending against real-world cyber attacks in a safe, virtual environment. Build skills,
-                track progress, and become a cybersecurity expert.
-              </p>
-              <div className="flex gap-4 justify-center">
-                <Link href="/scenarios">
-                  <Button size="lg" className="gap-2">
-                    Start Training <ArrowRight className="h-5 w-5" />
-                  </Button>
-                </Link>
-                <Link href="/resources">
-                  <Button variant="outline" size="lg">
-                    Learn More
-                  </Button>
-                </Link>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Left side - Content */}
+              <div className="space-y-8">
+                <h1 className="text-5xl font-bold tracking-tight">
+                  Master Cybersecurity<br />
+                  Through Simulation
+                </h1>
+                <p className="text-xl text-muted-foreground">
+                  Practice defending against real-world cyber attacks in a safe,
+                  virtual environment. Build skills, track progress, and become a
+                  cybersecurity expert.
+                </p>
+                <div className="flex gap-4">
+                  <Link href="/scenarios">
+                    <Button size="lg" className="gap-2">
+                      Start Training <ArrowRight className="h-5 w-5" />
+                    </Button>
+                  </Link>
+                  <Link href="/about">
+                    <Button variant="outline" size="lg">
+                      Learn More
+                    </Button>
+                  </Link>
+                </div>
               </div>
+
+              {/* Right side - Terminal */}
+              <TerminalWrapper />
             </div>
           </div>
         </section>
 
+        {/* Training Scenarios Section */}
         <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center mb-16">
