@@ -16,8 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+      </head>
       <body className={`${inter.className} min-h-screen bg-background antialiased`}>
-        <div className="relative flex min-h-screen flex-col">
+        <div className="relative min-h-screen flex flex-col">
           {children}
         </div>
       </body>
