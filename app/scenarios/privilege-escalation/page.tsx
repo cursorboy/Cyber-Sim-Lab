@@ -587,414 +587,384 @@ export default function PrivilegeEscalationScenario() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="bg-background border-b">
-        <div className="container flex h-16 items-center px-4 md:px-6">
-          <div className="flex items-center gap-2 font-semibold">
-            <Shield className="h-6 w-6 text-primary" />
-            <span>CyberDefender</span>
+      <main className="flex-1">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex flex-col gap-4">
+            <h1 className="text-3xl font-bold">Privilege Escalation Detection</h1>
+            <p className="text-muted-foreground">
+              Learn to identify and prevent unauthorized privilege escalation attempts.
+            </p>
           </div>
-          <nav className="ml-auto flex gap-4 sm:gap-6">
-            <Link href="/dashboard" className="text-sm font-medium hover:underline underline-offset-4">
-              Dashboard
-            </Link>
-            <Link href="/scenarios" className="text-sm font-medium hover:underline underline-offset-4">
-              Scenarios
-            </Link>
-            <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">
-              Leaderboard
-            </Link>
-            <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">
-              Resources
-            </Link>
-          </nav>
-          <div className="ml-4">
-            <Link href="/profile">
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <User className="h-5 w-5" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
-      <main className="flex-1 container py-8">
-        <div className="flex items-center mb-8">
-          <Link href="/scenarios">
-            <Button variant="ghost" size="sm" className="gap-1">
-              <ArrowLeft className="h-4 w-4" /> Back to Scenarios
-            </Button>
-          </Link>
-          <h1 className="text-3xl font-bold ml-4">Privilege Escalation Detection</h1>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <Card className="mb-6">
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <CardTitle>Interactive Terminal</CardTitle>
-                  <div className="flex items-center gap-2">
-                    <div className="text-sm text-muted-foreground flex items-center gap-1">
-                      <Clock className="h-4 w-4" />
-                      <span>30:00</span>
-                    </div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <HelpCircle className="h-4 w-4" />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p className="max-w-xs">
-                            Use terminal commands to detect and analyze privilege escalation attempts. Type 'help' to
-                            see available commands.
-                          </p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
-                <CardDescription>Identify and analyze privilege escalation attempts</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="bg-black rounded-md p-4 font-mono text-sm text-green-400 h-[400px] flex flex-col">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Terminal className="h-5 w-5" />
-                    <span className="text-white">CyberDefender Terminal</span>
-                  </div>
-                  <div className="flex-1 overflow-auto mb-2" ref={terminalRef}>
-                    {terminalHistory.map((line, index) => (
-                      <div key={index} className="py-0.5 break-words whitespace-pre-wrap">
-                        {line}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <Card className="mb-6">
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <CardTitle>Interactive Terminal</CardTitle>
+                    <div className="flex items-center gap-2">
+                      <div className="text-sm text-muted-foreground flex items-center gap-1">
+                        <Clock className="h-4 w-4" />
+                        <span>30:00</span>
                       </div>
-                    ))}
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <HelpCircle className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="max-w-xs">
+                              Use terminal commands to detect and analyze privilege escalation attempts. Type 'help' to
+                              see available commands.
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
                   </div>
-                  <div className="flex items-center">
-                    <span className="mr-2">$</span>
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      value={terminalInput}
-                      onChange={(e) => setTerminalInput(e.target.value)}
-                      onKeyDown={handleTerminalInput}
-                      className="flex-1 bg-transparent outline-none"
+                  <CardDescription>Identify and analyze privilege escalation attempts</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="bg-black rounded-md p-4 font-mono text-sm text-green-400 h-[400px] flex flex-col">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Terminal className="h-5 w-5" />
+                      <span className="text-white">CyberDefender Terminal</span>
+                    </div>
+                    <div className="flex-1 overflow-auto mb-2" ref={terminalRef}>
+                      {terminalHistory.map((line, index) => (
+                        <div key={index} className="py-0.5 break-words whitespace-pre-wrap">
+                          {line}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex items-center">
+                      <span className="mr-2">$</span>
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        value={terminalInput}
+                        onChange={(e) => setTerminalInput(e.target.value)}
+                        onKeyDown={handleTerminalInput}
+                        className="flex-1 bg-transparent outline-none"
+                        disabled={!simulationActive}
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-xs"
+                      onClick={() => processCommand("logs")}
                       disabled={!simulationActive}
-                    />
+                    >
+                      logs
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-xs"
+                      onClick={() => processCommand("techniques")}
+                      disabled={!simulationActive}
+                    >
+                      techniques
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-xs"
+                      onClick={() => processCommand("help")}
+                      disabled={!simulationActive}
+                    >
+                      help
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-xs"
+                      onClick={() => processCommand("tasks")}
+                      disabled={!simulationActive}
+                    >
+                      tasks
+                    </Button>
                   </div>
-                </div>
-                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="text-xs"
-                    onClick={() => processCommand("logs")}
-                    disabled={!simulationActive}
-                  >
-                    logs
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="text-xs"
-                    onClick={() => processCommand("techniques")}
-                    disabled={!simulationActive}
-                  >
-                    techniques
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="text-xs"
-                    onClick={() => processCommand("help")}
-                    disabled={!simulationActive}
-                  >
-                    help
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="text-xs"
-                    onClick={() => processCommand("tasks")}
-                    disabled={!simulationActive}
-                  >
-                    tasks
-                  </Button>
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <div className="flex gap-2">
-                  <Button onClick={startSimulation} disabled={simulationActive}>
-                    Start Simulation
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="gap-1"
-                    disabled={!simulationActive}
-                    onClick={() => {
-                      setTerminalHistory([
-                        "Welcome to CyberDefender Privilege Escalation Detection Terminal",
-                        "Type 'help' to see available commands",
-                      ])
-                      setSelectedLog(null)
-                      setAnalyzedLogs([])
-                      setDetectedVulnerabilities(0)
-                      setCompletedTasks([])
-                      securityControls.forEach((control, index) => {
-                        securityControls[index].implemented = false
-                      })
-                      setSimulationActive(false)
-                      toast({
-                        title: "Simulation Reset",
-                        description: "The simulation has been reset.",
-                        duration: 3000,
-                      })
-                    }}
-                  >
-                    <Search className="h-4 w-4" />
-                    Reset
-                  </Button>
-                </div>
-                <div className="text-sm">
-                  Tasks Completed:{" "}
-                  <span className="font-bold">
-                    {completedTasks.length}/{tasks.length}
-                  </span>
-                </div>
-              </CardFooter>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                  Step {currentStep} of {totalSteps}:{" "}
-                  {["Introduction", "Detection", "Analysis", "Mitigation", "Prevention"][currentStep - 1]}
-                </CardTitle>
-                <CardDescription>Progress: {Math.round(progress)}%</CardDescription>
-                <Progress value={progress} className="h-2" />
-              </CardHeader>
-              <CardContent>
-                {currentStep === 1 && (
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-medium">Welcome to the Privilege Escalation Detection Scenario</h3>
-                    <p>
-                      In this simulation, you will learn how to detect and analyze privilege escalation attempts.
-                      Privilege escalation occurs when a user gains access to resources or capabilities that should be
-                      restricted from them, effectively elevating their privileges on a system.
-                    </p>
-                    <div className="bg-muted p-4 rounded-md">
-                      <h4 className="font-medium mb-2">Getting Started:</h4>
-                      <ol className="list-decimal pl-5 space-y-1">
-                        <li>Click "Start Simulation" to begin</li>
-                        <li>Type "help" to see available commands</li>
-                        <li>Type "logs" to view system logs</li>
-                        <li>Use "examine [id]" to view details of a specific log entry</li>
-                        <li>Use "analyze [id]" to analyze suspicious activities</li>
-                      </ol>
-                    </div>
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                  <div className="flex gap-2">
+                    <Button onClick={startSimulation} disabled={simulationActive}>
+                      Start Simulation
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="gap-1"
+                      disabled={!simulationActive}
+                      onClick={() => {
+                        setTerminalHistory([
+                          "Welcome to CyberDefender Privilege Escalation Detection Terminal",
+                          "Type 'help' to see available commands",
+                        ])
+                        setSelectedLog(null)
+                        setAnalyzedLogs([])
+                        setDetectedVulnerabilities(0)
+                        setCompletedTasks([])
+                        securityControls.forEach((control, index) => {
+                          securityControls[index].implemented = false
+                        })
+                        setSimulationActive(false)
+                        toast({
+                          title: "Simulation Reset",
+                          description: "The simulation has been reset.",
+                          duration: 3000,
+                        })
+                      }}
+                    >
+                      <Search className="h-4 w-4" />
+                      Reset
+                    </Button>
                   </div>
-                )}
-                {currentStep === 2 && (
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-medium">Detection Phase</h3>
-                    <p>
-                      Start by examining the system logs for signs of privilege escalation attempts. Look for suspicious
-                      activities that might indicate someone is trying to gain elevated privileges.
-                    </p>
-                    <div className="bg-muted p-4 rounded-md">
-                      <h4 className="font-medium mb-2">Key Commands:</h4>
-                      <ul className="list-disc pl-5 space-y-1">
-                        <li>
-                          <code>logs</code> - View system logs
-                        </li>
-                        <li>
-                          <code>examine [id]</code> - View details of a specific log entry
-                        </li>
-                        <li>
-                          <code>flag [id]</code> - Mark a log entry as suspicious
-                        </li>
-                      </ul>
-                    </div>
-                    <p>Common indicators of privilege escalation include:</p>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>Unauthorized access to sensitive files (e.g., /etc/shadow, /etc/sudoers)</li>
-                      <li>Creation of users with elevated privileges</li>
-                      <li>Modification of permission settings on critical files or binaries</li>
-                      <li>Execution of commands that require elevated privileges</li>
-                      <li>Installation of suspicious software or scripts</li>
-                    </ul>
-                  </div>
-                )}
-                {currentStep === 3 && (
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-medium">Analysis Phase</h3>
-                    <p>
-                      Once you've identified suspicious activities, analyze them to understand the privilege escalation
-                      techniques being used and their potential impact.
-                    </p>
-                    <div className="bg-muted p-4 rounded-md">
-                      <h4 className="font-medium mb-2">Key Commands:</h4>
-                      <ul className="list-disc pl-5 space-y-1">
-                        <li>
-                          <code>analyze [id]</code> - Analyze a log entry for privilege escalation
-                        </li>
-                        <li>
-                          <code>techniques</code> - Learn about common privilege escalation techniques
-                        </li>
-                      </ul>
-                    </div>
-                    <p>
-                      Understanding the techniques used by attackers will help you implement effective countermeasures
-                      and prevent future attacks.
-                    </p>
-                  </div>
-                )}
-                {currentStep === 4 && (
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-medium">Mitigation Phase</h3>
-                    <p>
-                      After identifying privilege escalation attempts, it's important to implement security controls to
-                      mitigate the threats and prevent future attacks.
-                    </p>
-                    <div className="bg-muted p-4 rounded-md">
-                      <h4 className="font-medium mb-2">Key Commands:</h4>
-                      <ul className="list-disc pl-5 space-y-1">
-                        <li>
-                          <code>controls</code> - View available security controls
-                        </li>
-                        <li>
-                          <code>implement [id]</code> - Implement a security control
-                        </li>
-                      </ul>
-                    </div>
-                    <p>Effective security controls for privilege escalation include:</p>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>Implementing the principle of least privilege</li>
-                      <li>Regular auditing of user privileges and access rights</li>
-                      <li>Monitoring and restricting access to sensitive files and commands</li>
-                      <li>Implementing file integrity monitoring</li>
-                      <li>Restricting SUID/SGID binaries</li>
-                    </ul>
-                  </div>
-                )}
-                {currentStep === 5 && (
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-medium">Prevention Phase</h3>
-                    <p>
-                      The final step is to document your findings and implement long-term prevention strategies to
-                      protect systems from privilege escalation attacks.
-                    </p>
-                    <div className="bg-muted p-4 rounded-md">
-                      <h4 className="font-medium mb-2">Key Command:</h4>
-                      <ul className="list-disc pl-5 space-y-1">
-                        <li>
-                          <code>report</code> - Generate a comprehensive security report
-                        </li>
-                      </ul>
-                    </div>
-                    <p>Long-term prevention strategies include:</p>
-                    <ul className="list-disc pl-6 space-y-1">
-                      <li>Regular security updates and patches</li>
-                      <li>Continuous monitoring and logging</li>
-                      <li>Security awareness training</li>
-                      <li>Regular security assessments and penetration testing</li>
-                      <li>Implementation of defense-in-depth strategies</li>
-                    </ul>
-                  </div>
-                )}
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button onClick={prevStep} disabled={currentStep === 1} variant="outline">
-                  Previous
-                </Button>
-                <Button onClick={nextStep} disabled={currentStep === totalSteps}>
-                  Next
-                </Button>
-              </CardFooter>
-            </Card>
-          </div>
-
-          <div>
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Scenario Details</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Difficulty:</span>
-                    <span className="bg-orange-500/10 text-orange-500 text-xs font-medium px-2 py-1 rounded-full">
-                      Intermediate
+                  <div className="text-sm">
+                    Tasks Completed:{" "}
+                    <span className="font-bold">
+                      {completedTasks.length}/{tasks.length}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Estimated Time:</span>
-                    <span className="text-sm">30-45 minutes</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Category:</span>
-                    <span className="text-sm">System Security</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Skills:</span>
-                    <div className="flex flex-wrap gap-1 justify-end">
-                      <span className="bg-muted text-xs px-2 py-1 rounded-full">Detection</span>
-                      <span className="bg-muted text-xs px-2 py-1 rounded-full">Analysis</span>
-                      <span className="bg-muted text-xs px-2 py-1 rounded-full">Mitigation</span>
+                </CardFooter>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    Step {currentStep} of {totalSteps}:{" "}
+                    {["Introduction", "Detection", "Analysis", "Mitigation", "Prevention"][currentStep - 1]}
+                  </CardTitle>
+                  <CardDescription>Progress: {Math.round(progress)}%</CardDescription>
+                  <Progress value={progress} className="h-2" />
+                </CardHeader>
+                <CardContent>
+                  {currentStep === 1 && (
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-medium">Welcome to the Privilege Escalation Detection Scenario</h3>
+                      <p>
+                        In this simulation, you will learn how to detect and analyze privilege escalation attempts.
+                        Privilege escalation occurs when a user gains access to resources or capabilities that should be
+                        restricted from them, effectively elevating their privileges on a system.
+                      </p>
+                      <div className="bg-muted p-4 rounded-md">
+                        <h4 className="font-medium mb-2">Getting Started:</h4>
+                        <ol className="list-decimal pl-5 space-y-1">
+                          <li>Click "Start Simulation" to begin</li>
+                          <li>Type "help" to see available commands</li>
+                          <li>Type "logs" to view system logs</li>
+                          <li>Use "examine [id]" to view details of a specific log entry</li>
+                          <li>Use "analyze [id]" to analyze suspicious activities</li>
+                        </ol>
+                      </div>
+                    </div>
+                  )}
+                  {currentStep === 2 && (
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-medium">Detection Phase</h3>
+                      <p>
+                        Start by examining the system logs for signs of privilege escalation attempts. Look for suspicious
+                        activities that might indicate someone is trying to gain elevated privileges.
+                      </p>
+                      <div className="bg-muted p-4 rounded-md">
+                        <h4 className="font-medium mb-2">Key Commands:</h4>
+                        <ul className="list-disc pl-5 space-y-1">
+                          <li>
+                            <code>logs</code> - View system logs
+                          </li>
+                          <li>
+                            <code>examine [id]</code> - View details of a specific log entry
+                          </li>
+                          <li>
+                            <code>flag [id]</code> - Mark a log entry as suspicious
+                          </li>
+                        </ul>
+                      </div>
+                      <p>Common indicators of privilege escalation include:</p>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li>Unauthorized access to sensitive files (e.g., /etc/shadow, /etc/sudoers)</li>
+                        <li>Creation of users with elevated privileges</li>
+                        <li>Modification of permission settings on critical files or binaries</li>
+                        <li>Execution of commands that require elevated privileges</li>
+                        <li>Installation of suspicious software or scripts</li>
+                      </ul>
+                    </div>
+                  )}
+                  {currentStep === 3 && (
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-medium">Analysis Phase</h3>
+                      <p>
+                        Once you've identified suspicious activities, analyze them to understand the privilege escalation
+                        techniques being used and their potential impact.
+                      </p>
+                      <div className="bg-muted p-4 rounded-md">
+                        <h4 className="font-medium mb-2">Key Commands:</h4>
+                        <ul className="list-disc pl-5 space-y-1">
+                          <li>
+                            <code>analyze [id]</code> - Analyze a log entry for privilege escalation
+                          </li>
+                          <li>
+                            <code>techniques</code> - Learn about common privilege escalation techniques
+                          </li>
+                        </ul>
+                      </div>
+                      <p>
+                        Understanding the techniques used by attackers will help you implement effective countermeasures
+                        and prevent future attacks.
+                      </p>
+                    </div>
+                  )}
+                  {currentStep === 4 && (
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-medium">Mitigation Phase</h3>
+                      <p>
+                        After identifying privilege escalation attempts, it's important to implement security controls to
+                        mitigate the threats and prevent future attacks.
+                      </p>
+                      <div className="bg-muted p-4 rounded-md">
+                        <h4 className="font-medium mb-2">Key Commands:</h4>
+                        <ul className="list-disc pl-5 space-y-1">
+                          <li>
+                            <code>controls</code> - View available security controls
+                          </li>
+                          <li>
+                            <code>implement [id]</code> - Implement a security control
+                          </li>
+                        </ul>
+                      </div>
+                      <p>Effective security controls for privilege escalation include:</p>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li>Implementing the principle of least privilege</li>
+                        <li>Regular auditing of user privileges and access rights</li>
+                        <li>Monitoring and restricting access to sensitive files and commands</li>
+                        <li>Implementing file integrity monitoring</li>
+                        <li>Restricting SUID/SGID binaries</li>
+                      </ul>
+                    </div>
+                  )}
+                  {currentStep === 5 && (
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-medium">Prevention Phase</h3>
+                      <p>
+                        The final step is to document your findings and implement long-term prevention strategies to
+                        protect systems from privilege escalation attacks.
+                      </p>
+                      <div className="bg-muted p-4 rounded-md">
+                        <h4 className="font-medium mb-2">Key Command:</h4>
+                        <ul className="list-disc pl-5 space-y-1">
+                          <li>
+                            <code>report</code> - Generate a comprehensive security report
+                          </li>
+                        </ul>
+                      </div>
+                      <p>Long-term prevention strategies include:</p>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li>Regular security updates and patches</li>
+                        <li>Continuous monitoring and logging</li>
+                        <li>Security awareness training</li>
+                        <li>Regular security assessments and penetration testing</li>
+                        <li>Implementation of defense-in-depth strategies</li>
+                      </ul>
+                    </div>
+                  )}
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                  <Button onClick={prevStep} disabled={currentStep === 1} variant="outline">
+                    Previous
+                  </Button>
+                  <Button onClick={nextStep} disabled={currentStep === totalSteps}>
+                    Next
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
+
+            <div>
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle>Scenario Details</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium">Difficulty:</span>
+                      <span className="bg-orange-500/10 text-orange-500 text-xs font-medium px-2 py-1 rounded-full">
+                        Intermediate
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium">Estimated Time:</span>
+                      <span className="text-sm">30-45 minutes</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium">Category:</span>
+                      <span className="text-sm">System Security</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium">Skills:</span>
+                      <div className="flex flex-wrap gap-1 justify-end">
+                        <span className="bg-muted text-xs px-2 py-1 rounded-full">Detection</span>
+                        <span className="bg-muted text-xs px-2 py-1 rounded-full">Analysis</span>
+                        <span className="bg-muted text-xs px-2 py-1 rounded-full">Mitigation</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
 
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Tasks</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  {tasks.map((task, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      {completedTasks.includes(task) ? (
-                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                      ) : (
-                        <div className="h-5 w-5 border rounded-full mt-0.5 shrink-0" />
-                      )}
-                      <span className={completedTasks.includes(task) ? "text-green-500" : ""}>{task}</span>
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle>Tasks</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    {tasks.map((task, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        {completedTasks.includes(task) ? (
+                          <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                        ) : (
+                          <div className="h-5 w-5 border rounded-full mt-0.5 shrink-0" />
+                        )}
+                        <span className={completedTasks.includes(task) ? "text-green-500" : ""}>{task}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Learning Objectives</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                      <span>Identify privilege escalation indicators in system logs</span>
                     </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Learning Objectives</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                    <span>Identify privilege escalation indicators in system logs</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                    <span>Recognize common privilege escalation techniques</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                    <span>Analyze suspicious activities to determine their impact</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                    <span>Implement appropriate security controls</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                    <span>Document findings and recommend preventive measures</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                      <span>Recognize common privilege escalation techniques</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                      <span>Analyze suspicious activities to determine their impact</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                      <span>Implement appropriate security controls</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                      <span>Document findings and recommend preventive measures</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </main>

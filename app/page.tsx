@@ -7,26 +7,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Shield className="h-6 w-6" />
-            <span className="font-semibold">Cyber Sim Lab</span>
-          </div>
-          <nav className="flex gap-8">
-            <Link href="/features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Features
-            </Link>
-            <Link href="/scenarios" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Scenarios
-            </Link>
-            <Link href="/resources" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Resources
-            </Link>
-          </nav>
-        </div>
-      </header>
-
       <main className="flex-1">
         <section className="py-20">
           <div className="container mx-auto px-4">
@@ -44,7 +24,7 @@ export default function Home() {
                     Start Training <ArrowRight className="h-5 w-5" />
                   </Button>
                 </Link>
-                <Link href="/learn">
+                <Link href="/resources">
                   <Button variant="outline" size="lg">
                     Learn More
                   </Button>
@@ -97,7 +77,9 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full">Start Scenario</Button>
+                  <Link href="/scenarios/network-intrusion" className="w-full">
+                    <Button className="w-full">Start Scenario</Button>
+                  </Link>
                 </CardFooter>
               </Card>
 
@@ -132,7 +114,9 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full">Start Scenario</Button>
+                  <Link href="/scenarios/malware-analysis" className="w-full">
+                    <Button className="w-full">Start Scenario</Button>
+                  </Link>
                 </CardFooter>
               </Card>
 
@@ -167,7 +151,9 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full">Start Scenario</Button>
+                  <Link href="/scenarios/social-engineering" className="w-full">
+                    <Button className="w-full">Start Scenario</Button>
+                  </Link>
                 </CardFooter>
               </Card>
             </div>
@@ -185,7 +171,7 @@ export default function Home() {
                 Cyber Sim Lab
               </a>
               . The source code is available on{" "}
-              <a href="#" className="font-medium underline underline-offset-4 hover:text-primary transition-colors">
+              <a href="https://github.com/cursorboy/Cyber-Sim-Lab" className="font-medium underline underline-offset-4 hover:text-primary transition-colors">
                 GitHub
               </a>
               .
