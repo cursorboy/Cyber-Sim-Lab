@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import { ArrowLeft, CheckCircle, Clock, HelpCircle, Shield, Terminal, User } from "lucide-react"
+import { ArrowLeft, CheckCircle, Clock, HelpCircle, Terminal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -598,373 +598,374 @@ export default function SocialEngineeringScenario() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <main className="flex-1">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold">Social Engineering Defense</h1>
-            <p className="text-muted-foreground">
-              Learn to identify and respond to social engineering attacks.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <Card className="mb-6">
-                <CardHeader>
-                  <div className="flex justify-between items-center">
-                    <CardTitle>Interactive Terminal</CardTitle>
-                    <div className="flex items-center gap-2">
-                      <div className="text-sm text-muted-foreground flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        <span>25:00</span>
+      <main className="flex-1 container py-8">
+        <div className="flex items-center mb-8">
+          <Link href="/scenarios">
+            <Button variant="ghost" size="sm" className="gap-1">
+              <ArrowLeft className="h-4 w-4" /> Back to Scenarios
+            </Button>
+          </Link>
+          <h1 className="text-3xl font-bold ml-4">Social Engineering Defense Scenario</h1>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <Card className="mb-6">
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle>Interactive Terminal</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <div className="text-sm text-muted-foreground flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      <span>25:00</span>
+                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <HelpCircle className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p className="max-w-xs">
+                            Use terminal commands to analyze social engineering scenarios and practice appropriate
+                            responses. Type 'help' to see available commands.
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                </div>
+                <CardDescription>Identify and respond to various social engineering attempts</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-black rounded-md p-4 font-mono text-sm text-green-400 h-[400px] flex flex-col">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Terminal className="h-5 w-5" />
+                    <span className="text-white">CyberDefender Terminal</span>
+                  </div>
+                  <div className="flex-1 overflow-auto mb-2" ref={terminalRef}>
+                    {terminalHistory.map((line, index) => (
+                      <div key={index} className="py-0.5 break-words whitespace-pre-wrap">
+                        {line}
                       </div>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <HelpCircle className="h-4 w-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p className="max-w-xs">
-                              Use terminal commands to analyze social engineering scenarios and practice appropriate
-                              responses. Type 'help' to see available commands.
-                            </p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                    ))}
+                  </div>
+                  <div className="flex items-center">
+                    <span className="mr-2">$</span>
+                    <input
+                      ref={inputRef}
+                      type="text"
+                      value={terminalInput}
+                      onChange={(e) => setTerminalInput(e.target.value)}
+                      onKeyDown={handleTerminalInput}
+                      className="flex-1 bg-transparent outline-none"
+                      disabled={!simulationActive}
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => processCommand("list")}
+                    disabled={!simulationActive}
+                  >
+                    list
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => processCommand("techniques")}
+                    disabled={!simulationActive}
+                  >
+                    techniques
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => processCommand("help")}
+                    disabled={!simulationActive}
+                  >
+                    help
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => processCommand("tasks")}
+                    disabled={!simulationActive}
+                  >
+                    tasks
+                  </Button>
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <div className="flex gap-2">
+                  <Button onClick={startSimulation} disabled={simulationActive}>
+                    Start Simulation
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="gap-1"
+                    disabled={!simulationActive}
+                    onClick={() => {
+                      setTerminalHistory([
+                        "Welcome to CyberDefender Social Engineering Defense Terminal",
+                        "Type 'help' to see available commands",
+                      ])
+                      setSelectedScenario(null)
+                      setCompletedTasks([])
+                      setCorrectResponses(0)
+                      setSimulationActive(false)
+                      toast({
+                        title: "Simulation Reset",
+                        description: "The simulation has been reset.",
+                        duration: 3000,
+                      })
+                    }}
+                  >
+                    Reset
+                  </Button>
+                </div>
+                <div className="text-sm">
+                  Tasks Completed:{" "}
+                  <span className="font-bold">
+                    {completedTasks.length}/{tasks.length}
+                  </span>
+                </div>
+              </CardFooter>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>
+                  Step {currentStep} of {totalSteps}:{" "}
+                  {["Introduction", "Recognition", "Analysis", "Response", "Prevention"][currentStep - 1]}
+                </CardTitle>
+                <CardDescription>Progress: {Math.round(progress)}%</CardDescription>
+                <Progress value={progress} className="h-2" />
+              </CardHeader>
+              <CardContent>
+                {currentStep === 1 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Welcome to the Social Engineering Defense Scenario</h3>
+                    <p>
+                      In this simulation, you will learn how to recognize and respond to various social engineering
+                      attacks. Social engineering is the psychological manipulation of people into performing actions or
+                      divulging confidential information.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Getting Started:</h4>
+                      <ol className="list-decimal pl-5 space-y-1">
+                        <li>Click "Start Simulation" to begin</li>
+                        <li>Type "help" to see available commands</li>
+                        <li>Type "list" to view available scenarios</li>
+                        <li>Use "view [id]" to examine a specific scenario</li>
+                        <li>Use "analyze [id]" to identify the social engineering technique</li>
+                      </ol>
                     </div>
                   </div>
-                  <CardDescription>Identify and respond to various social engineering attempts</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="bg-black rounded-md p-4 font-mono text-sm text-green-400 h-[400px] flex flex-col">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Terminal className="h-5 w-5" />
-                      <span className="text-white">CyberDefender Terminal</span>
+                )}
+                {currentStep === 2 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Recognition Phase</h3>
+                    <p>
+                      The first step in defending against social engineering is recognizing the attack. You need to
+                      understand common techniques used by attackers to manipulate people.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Key Commands:</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>
+                          <code>techniques</code> - Learn about social engineering techniques
+                        </li>
+                        <li>
+                          <code>view [id]</code> - Examine a specific scenario
+                        </li>
+                        <li>
+                          <code>analyze [id]</code> - Identify the technique being used
+                        </li>
+                      </ul>
                     </div>
-                    <div className="flex-1 overflow-auto mb-2" ref={terminalRef}>
-                      {terminalHistory.map((line, index) => (
-                        <div key={index} className="py-0.5 break-words whitespace-pre-wrap">
-                          {line}
-                        </div>
-                      ))}
+                    <p>
+                      Pay attention to psychological triggers like urgency, authority, fear, curiosity, and trust that
+                      attackers exploit to manipulate their targets.
+                    </p>
+                  </div>
+                )}
+                {currentStep === 3 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Analysis Phase</h3>
+                    <p>
+                      Once you recognize a potential social engineering attack, analyze the situation to understand the
+                      technique being used and the attacker's goal.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Analysis Questions:</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>What information or access is the attacker trying to obtain?</li>
+                        <li>What technique are they using to manipulate you?</li>
+                        <li>What psychological triggers are they exploiting?</li>
+                        <li>Is the request unusual, unexpected, or out of character?</li>
+                        <li>Are there any red flags or inconsistencies in the scenario?</li>
+                      </ul>
                     </div>
-                    <div className="flex items-center">
-                      <span className="mr-2">$</span>
-                      <input
-                        ref={inputRef}
-                        type="text"
-                        value={terminalInput}
-                        onChange={(e) => setTerminalInput(e.target.value)}
-                        onKeyDown={handleTerminalInput}
-                        className="flex-1 bg-transparent outline-none"
-                        disabled={!simulationActive}
-                      />
+                    <p>
+                      Use the <code>analyze [id]</code> command to perform a detailed analysis of each scenario.
+                    </p>
+                  </div>
+                )}
+                {currentStep === 4 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Response Phase</h3>
+                    <p>
+                      After identifying a social engineering attempt, it's important to respond appropriately to protect
+                      yourself and your organization.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Key Commands:</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>
+                          <code>respond [id] [a|b|c]</code> - Choose your response to a scenario
+                        </li>
+                        <li>
+                          <code>document [id]</code> - Document the security incident
+                        </li>
+                      </ul>
                     </div>
+                    <p>Remember these key principles when responding:</p>
+                    <ul className="list-disc pl-6 space-y-1">
+                      <li>Verify requests through official channels</li>
+                      <li>Don't be pressured by urgency or authority</li>
+                      <li>Report suspicious activities to your security team</li>
+                      <li>Follow established security protocols</li>
+                      <li>When in doubt, politely decline and consult with security personnel</li>
+                    </ul>
                   </div>
-                  <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs"
-                      onClick={() => processCommand("list")}
-                      disabled={!simulationActive}
-                    >
-                      list
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs"
-                      onClick={() => processCommand("techniques")}
-                      disabled={!simulationActive}
-                    >
-                      techniques
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs"
-                      onClick={() => processCommand("help")}
-                      disabled={!simulationActive}
-                    >
-                      help
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs"
-                      onClick={() => processCommand("tasks")}
-                      disabled={!simulationActive}
-                    >
-                      tasks
-                    </Button>
+                )}
+                {currentStep === 5 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Prevention Phase</h3>
+                    <p>
+                      The best defense against social engineering is prevention. Implementing strong security practices
+                      and awareness can significantly reduce the risk of successful attacks.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Key Command:</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>
+                          <code>prevent</code> - Learn about prevention strategies
+                        </li>
+                      </ul>
+                    </div>
+                    <p>Effective prevention strategies include:</p>
+                    <ul className="list-disc pl-6 space-y-1">
+                      <li>Regular security awareness training</li>
+                      <li>Establishing clear security policies and procedures</li>
+                      <li>Implementing verification processes for sensitive requests</li>
+                      <li>Creating a culture where security is everyone's responsibility</li>
+                      <li>Staying informed about the latest social engineering techniques</li>
+                    </ul>
                   </div>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <div className="flex gap-2">
-                    <Button onClick={startSimulation} disabled={simulationActive}>
-                      Start Simulation
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="gap-1"
-                      disabled={!simulationActive}
-                      onClick={() => {
-                        setTerminalHistory([
-                          "Welcome to CyberDefender Social Engineering Defense Terminal",
-                          "Type 'help' to see available commands",
-                        ])
-                        setSelectedScenario(null)
-                        setCompletedTasks([])
-                        setCorrectResponses(0)
-                        setSimulationActive(false)
-                        toast({
-                          title: "Simulation Reset",
-                          description: "The simulation has been reset.",
-                          duration: 3000,
-                        })
-                      }}
-                    >
-                      Reset
-                    </Button>
-                  </div>
-                  <div className="text-sm">
-                    Tasks Completed:{" "}
-                    <span className="font-bold">
-                      {completedTasks.length}/{tasks.length}
+                )}
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button onClick={prevStep} disabled={currentStep === 1} variant="outline">
+                  Previous
+                </Button>
+                <Button onClick={nextStep} disabled={currentStep === totalSteps}>
+                  Next
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+
+          <div>
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Scenario Details</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Difficulty:</span>
+                    <span className="bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-full">
+                      Beginner
                     </span>
                   </div>
-                </CardFooter>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>
-                    Step {currentStep} of {totalSteps}:{" "}
-                    {["Introduction", "Recognition", "Analysis", "Response", "Prevention"][currentStep - 1]}
-                  </CardTitle>
-                  <CardDescription>Progress: {Math.round(progress)}%</CardDescription>
-                  <Progress value={progress} className="h-2" />
-                </CardHeader>
-                <CardContent>
-                  {currentStep === 1 && (
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">Welcome to the Social Engineering Defense Scenario</h3>
-                      <p>
-                        In this simulation, you will learn how to recognize and respond to various social engineering
-                        attacks. Social engineering is the psychological manipulation of people into performing actions or
-                        divulging confidential information.
-                      </p>
-                      <div className="bg-muted p-4 rounded-md">
-                        <h4 className="font-medium mb-2">Getting Started:</h4>
-                        <ol className="list-decimal pl-5 space-y-1">
-                          <li>Click "Start Simulation" to begin</li>
-                          <li>Type "help" to see available commands</li>
-                          <li>Type "list" to view available scenarios</li>
-                          <li>Use "view [id]" to examine a specific scenario</li>
-                          <li>Use "analyze [id]" to identify the social engineering technique</li>
-                        </ol>
-                      </div>
-                    </div>
-                  )}
-                  {currentStep === 2 && (
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">Recognition Phase</h3>
-                      <p>
-                        The first step in defending against social engineering is recognizing the attack. You need to
-                        understand common techniques used by attackers to manipulate people.
-                      </p>
-                      <div className="bg-muted p-4 rounded-md">
-                        <h4 className="font-medium mb-2">Key Commands:</h4>
-                        <ul className="list-disc pl-5 space-y-1">
-                          <li>
-                            <code>techniques</code> - Learn about social engineering techniques
-                          </li>
-                          <li>
-                            <code>view [id]</code> - Examine a specific scenario
-                          </li>
-                          <li>
-                            <code>analyze [id]</code> - Identify the technique being used
-                          </li>
-                        </ul>
-                      </div>
-                      <p>
-                        Pay attention to psychological triggers like urgency, authority, fear, curiosity, and trust that
-                        attackers exploit to manipulate their targets.
-                      </p>
-                    </div>
-                  )}
-                  {currentStep === 3 && (
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">Analysis Phase</h3>
-                      <p>
-                        Once you recognize a potential social engineering attack, analyze the situation to understand the
-                        technique being used and the attacker's goal.
-                      </p>
-                      <div className="bg-muted p-4 rounded-md">
-                        <h4 className="font-medium mb-2">Analysis Questions:</h4>
-                        <ul className="list-disc pl-5 space-y-1">
-                          <li>What information or access is the attacker trying to obtain?</li>
-                          <li>What technique are they using to manipulate you?</li>
-                          <li>What psychological triggers are they exploiting?</li>
-                          <li>Is the request unusual, unexpected, or out of character?</li>
-                          <li>Are there any red flags or inconsistencies in the scenario?</li>
-                        </ul>
-                      </div>
-                      <p>
-                        Use the <code>analyze [id]</code> command to perform a detailed analysis of each scenario.
-                      </p>
-                    </div>
-                  )}
-                  {currentStep === 4 && (
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">Response Phase</h3>
-                      <p>
-                        After identifying a social engineering attempt, it's important to respond appropriately to protect
-                        yourself and your organization.
-                      </p>
-                      <div className="bg-muted p-4 rounded-md">
-                        <h4 className="font-medium mb-2">Key Commands:</h4>
-                        <ul className="list-disc pl-5 space-y-1">
-                          <li>
-                            <code>respond [id] [a|b|c]</code> - Choose your response to a scenario
-                          </li>
-                          <li>
-                            <code>document [id]</code> - Document the security incident
-                          </li>
-                        </ul>
-                      </div>
-                      <p>Remember these key principles when responding:</p>
-                      <ul className="list-disc pl-6 space-y-1">
-                        <li>Verify requests through official channels</li>
-                        <li>Don't be pressured by urgency or authority</li>
-                        <li>Report suspicious activities to your security team</li>
-                        <li>Follow established security protocols</li>
-                        <li>When in doubt, politely decline and consult with security personnel</li>
-                      </ul>
-                    </div>
-                  )}
-                  {currentStep === 5 && (
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">Prevention Phase</h3>
-                      <p>
-                        The best defense against social engineering is prevention. Implementing strong security practices
-                        and awareness can significantly reduce the risk of successful attacks.
-                      </p>
-                      <div className="bg-muted p-4 rounded-md">
-                        <h4 className="font-medium mb-2">Key Command:</h4>
-                        <ul className="list-disc pl-5 space-y-1">
-                          <li>
-                            <code>prevent</code> - Learn about prevention strategies
-                          </li>
-                        </ul>
-                      </div>
-                      <p>Effective prevention strategies include:</p>
-                      <ul className="list-disc pl-6 space-y-1">
-                        <li>Regular security awareness training</li>
-                        <li>Establishing clear security policies and procedures</li>
-                        <li>Implementing verification processes for sensitive requests</li>
-                        <li>Creating a culture where security is everyone's responsibility</li>
-                        <li>Staying informed about the latest social engineering techniques</li>
-                      </ul>
-                    </div>
-                  )}
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Button onClick={prevStep} disabled={currentStep === 1} variant="outline">
-                    Previous
-                  </Button>
-                  <Button onClick={nextStep} disabled={currentStep === totalSteps}>
-                    Next
-                  </Button>
-                </CardFooter>
-              </Card>
-            </div>
-
-            <div>
-              <Card className="mb-6">
-                <CardHeader>
-                  <CardTitle>Scenario Details</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Difficulty:</span>
-                      <span className="bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-full">
-                        Beginner
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Estimated Time:</span>
-                      <span className="text-sm">25-35 minutes</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Category:</span>
-                      <span className="text-sm">Social Engineering</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Skills:</span>
-                      <div className="flex flex-wrap gap-1 justify-end">
-                        <span className="bg-muted text-xs px-2 py-1 rounded-full">Recognition</span>
-                        <span className="bg-muted text-xs px-2 py-1 rounded-full">Analysis</span>
-                        <span className="bg-muted text-xs px-2 py-1 rounded-full">Response</span>
-                      </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Estimated Time:</span>
+                    <span className="text-sm">25-35 minutes</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Category:</span>
+                    <span className="text-sm">Social Engineering</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Skills:</span>
+                    <div className="flex flex-wrap gap-1 justify-end">
+                      <span className="bg-muted text-xs px-2 py-1 rounded-full">Recognition</span>
+                      <span className="bg-muted text-xs px-2 py-1 rounded-full">Analysis</span>
+                      <span className="bg-muted text-xs px-2 py-1 rounded-full">Response</span>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </CardContent>
+            </Card>
 
-              <Card className="mb-6">
-                <CardHeader>
-                  <CardTitle>Tasks</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {tasks.map((task, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        {completedTasks.includes(task) ? (
-                          <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                        ) : (
-                          <div className="h-5 w-5 border rounded-full mt-0.5 shrink-0" />
-                        )}
-                        <span className={completedTasks.includes(task) ? "text-green-500" : ""}>{task}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Tasks</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  {tasks.map((task, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      {completedTasks.includes(task) ? (
+                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                      ) : (
+                        <div className="h-5 w-5 border rounded-full mt-0.5 shrink-0" />
+                      )}
+                      <span className={completedTasks.includes(task) ? "text-green-500" : ""}>{task}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Learning Objectives</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                      <span>Identify common social engineering techniques</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                      <span>Recognize psychological triggers used by attackers</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                      <span>Analyze suspicious scenarios for red flags</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                      <span>Respond appropriately to social engineering attempts</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                      <span>Implement preventive measures against manipulation</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Learning Objectives</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Identify common social engineering techniques</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Recognize psychological triggers used by attackers</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Analyze suspicious scenarios for red flags</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Respond appropriately to social engineering attempts</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Implement preventive measures against manipulation</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </main>

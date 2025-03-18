@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import { ArrowLeft, CheckCircle, Clock, HelpCircle, Shield, Terminal } from "lucide-react"
+import { ArrowLeft, CheckCircle, Clock, HelpCircle, Terminal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -684,384 +684,385 @@ export default function NetworkIntrusionScenario() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <main className="flex-1">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold">Network Intrusion Detection</h1>
-            <p className="text-muted-foreground">
-              Learn to identify and respond to network-based attacks in real-time.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <Card className="mb-6">
-                <CardHeader>
-                  <div className="flex justify-between items-center">
-                    <CardTitle>Interactive Terminal</CardTitle>
-                    <div className="flex items-center gap-2">
-                      <div className="text-sm text-muted-foreground flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        <span>30:00</span>
+      <main className="flex-1 container py-8">
+        <div className="flex items-center mb-8">
+          <Link href="/scenarios">
+            <Button variant="ghost" size="sm" className="gap-1">
+              <ArrowLeft className="h-4 w-4" /> Back to Scenarios
+            </Button>
+          </Link>
+          <h1 className="text-3xl font-bold ml-4">Network Intrusion Scenario</h1>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <Card className="mb-6">
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle>Interactive Terminal</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <div className="text-sm text-muted-foreground flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      <span>30:00</span>
+                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <HelpCircle className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p className="max-w-xs">
+                            Use terminal commands to monitor network traffic and detect intrusions. Type 'help' to see
+                            available commands.
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                </div>
+                <CardDescription>Detect and respond to unauthorized network access attempts</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-black rounded-md p-4 font-mono text-sm text-green-400 h-[400px] flex flex-col">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Terminal className="h-5 w-5" />
+                    <span className="text-white">Cyber Sim Lab Terminal</span>
+                  </div>
+                  <div className="flex-1 overflow-auto mb-2" ref={terminalRef}>
+                    {terminalHistory.map((line, index) => (
+                      <div key={index} className="py-0.5 break-words whitespace-pre-wrap">
+                        {line}
                       </div>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <HelpCircle className="h-4 w-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p className="max-w-xs">
-                              Use terminal commands to monitor network traffic and detect intrusions. Type 'help' to see
-                              available commands.
-                            </p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                    ))}
+                  </div>
+                  <div className="flex items-center">
+                    <span className="mr-2">$</span>
+                    <input
+                      ref={inputRef}
+                      type="text"
+                      value={terminalInput}
+                      onChange={(e) => setTerminalInput(e.target.value)}
+                      onKeyDown={handleTerminalInput}
+                      className="flex-1 bg-transparent outline-none"
+                      disabled={!simulationActive}
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => processCommand("netstat")}
+                    disabled={!simulationActive}
+                  >
+                    netstat
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => processCommand("analyze 45.33.22.123")}
+                    disabled={!simulationActive}
+                  >
+                    analyze
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => processCommand("help")}
+                    disabled={!simulationActive}
+                  >
+                    help
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => processCommand("tasks")}
+                    disabled={!simulationActive}
+                  >
+                    tasks
+                  </Button>
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <div className="flex gap-2">
+                  <Button onClick={startSimulation} disabled={simulationActive}>
+                    Start Simulation
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="gap-1"
+                    disabled={!simulationActive}
+                    onClick={() => {
+                      setTerminalHistory([
+                        "Welcome to Cyber Sim Lab Network Security Terminal",
+                        "Type 'help' to see available commands",
+                      ])
+                      setDetectedThreats(0)
+                      setCompletedTasks([])
+                      setFirewallRules([
+                        { source: "ANY", destination: "192.168.1.0/24", port: 80, action: "ALLOW" },
+                        { source: "ANY", destination: "192.168.1.0/24", port: 443, action: "ALLOW" },
+                        { source: "192.168.1.0/24", destination: "ANY", port: 0, action: "ALLOW" },
+                      ])
+                      setSimulationActive(false)
+                      toast({
+                        title: "Simulation Reset",
+                        description: "The simulation has been reset.",
+                        duration: 3000,
+                      })
+                    }}
+                  >
+                    Reset
+                  </Button>
+                </div>
+                <div className="text-sm">
+                  Tasks Completed:{" "}
+                  <span className="font-bold">
+                    {completedTasks.length}/{tasks.length}
+                  </span>
+                </div>
+              </CardFooter>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>
+                  Step {currentStep} of {totalSteps}:{" "}
+                  {["Introduction", "Reconnaissance", "Detection", "Mitigation", "Analysis"][currentStep - 1]}
+                </CardTitle>
+                <CardDescription>Progress: {Math.round(progress)}%</CardDescription>
+                <Progress value={progress} className="h-2" />
+              </CardHeader>
+              <CardContent>
+                {currentStep === 1 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Welcome to the Network Intrusion Scenario</h3>
+                    <p>
+                      In this simulation, you will learn how to detect and respond to unauthorized network access
+                      attempts. You will be presented with a virtual environment where you can monitor network traffic,
+                      identify suspicious activities, and take appropriate actions to mitigate threats.
+                    </p>
+                    <p>
+                      This scenario will guide you through the process of identifying a brute force SSH attack and
+                      implementing countermeasures to protect your system.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Getting Started:</h4>
+                      <ol className="list-decimal pl-5 space-y-1">
+                        <li>Click "Start Simulation" to begin</li>
+                        <li>Type "help" to see available commands</li>
+                        <li>Type "tasks" to see your objectives</li>
+                        <li>Use "netstat" to view current network connections</li>
+                        <li>Look for suspicious patterns in network traffic</li>
+                      </ol>
                     </div>
                   </div>
-                  <CardDescription>Detect and respond to unauthorized network access attempts</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="bg-black rounded-md p-4 font-mono text-sm text-green-400 h-[400px] flex flex-col">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Terminal className="h-5 w-5" />
-                      <span className="text-white">Cyber Sim Lab Terminal</span>
+                )}
+                {currentStep === 2 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Reconnaissance Phase</h3>
+                    <p>
+                      Start by monitoring your network traffic. Look for unusual patterns or suspicious activities. Pay
+                      special attention to connection attempts on common service ports like SSH (22), FTP (21), and RDP
+                      (3389).
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Key Commands:</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>
+                          <code>netstat</code> - View current network connections
+                        </li>
+                        <li>
+                          <code>ping [host]</code> - Check connectivity to a host
+                        </li>
+                        <li>
+                          <code>traceroute [host]</code> - Trace the route to a host
+                        </li>
+                        <li>
+                          <code>nmap [host]</code> - Scan a host for open ports
+                        </li>
+                      </ul>
                     </div>
-                    <div className="flex-1 overflow-auto mb-2" ref={terminalRef}>
-                      {terminalHistory.map((line, index) => (
-                        <div key={index} className="py-0.5 break-words whitespace-pre-wrap">
-                          {line}
-                        </div>
-                      ))}
+                    <p>
+                      Use these commands to gather information about the network and identify any suspicious hosts or
+                      connection attempts.
+                    </p>
+                  </div>
+                )}
+                {currentStep === 3 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Detection Phase</h3>
+                    <p>
+                      Now that you've observed suspicious activity, it's time to identify the type of attack. Multiple
+                      failed login attempts on port 22 (SSH) indicate a possible brute force attack.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Key Commands:</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>
+                          <code>analyze [ip]</code> - Analyze traffic from an IP address
+                        </li>
+                        <li>
+                          <code>firewall list</code> - View current firewall rules
+                        </li>
+                      </ul>
                     </div>
-                    <div className="flex items-center">
-                      <span className="mr-2">$</span>
-                      <input
-                        ref={inputRef}
-                        type="text"
-                        value={terminalInput}
-                        onChange={(e) => setTerminalInput(e.target.value)}
-                        onKeyDown={handleTerminalInput}
-                        className="flex-1 bg-transparent outline-none"
-                        disabled={!simulationActive}
-                      />
+                    <p>
+                      Use the analyze command on suspicious IP addresses to determine the nature of the attack. Look for
+                      patterns like multiple connection attempts to the same port.
+                    </p>
+                  </div>
+                )}
+                {currentStep === 4 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Mitigation Phase</h3>
+                    <p>
+                      Now that you've identified the threat, it's time to take action to stop the attack. For a brute
+                      force SSH attack, you can block the attacking IP address using the firewall.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Key Commands:</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>
+                          <code>block [ip] [port]</code> - Block traffic from an IP address
+                        </li>
+                        <li>
+                          <code>firewall add [src] [dst] [port] [action]</code> - Add a firewall rule
+                        </li>
+                      </ul>
                     </div>
+                    <p>
+                      Block the malicious IP address to prevent further attack attempts. You can block all traffic from
+                      the IP or specifically target port 22 (SSH).
+                    </p>
                   </div>
-                  <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs"
-                      onClick={() => processCommand("netstat")}
-                      disabled={!simulationActive}
-                    >
-                      netstat
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs"
-                      onClick={() => processCommand("analyze 45.33.22.123")}
-                      disabled={!simulationActive}
-                    >
-                      analyze
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs"
-                      onClick={() => processCommand("help")}
-                      disabled={!simulationActive}
-                    >
-                      help
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs"
-                      onClick={() => processCommand("tasks")}
-                      disabled={!simulationActive}
-                    >
-                      tasks
-                    </Button>
+                )}
+                {currentStep === 5 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Analysis Phase</h3>
+                    <p>
+                      Great job! You've successfully detected and mitigated a brute force SSH attack. Let's analyze what
+                      happened and document the incident.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Key Commands:</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>
+                          <code>report</code> - Generate an incident report
+                        </li>
+                      </ul>
+                    </div>
+                    <p>
+                      Generate a report to document the incident, including the attack type, actions taken, and
+                      recommendations for future prevention. This documentation is crucial for security audits and
+                      improving your security posture.
+                    </p>
+                    <p>
+                      Consider implementing additional security measures like SSH key authentication, rate limiting for
+                      login attempts, and intrusion detection systems.
+                    </p>
                   </div>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <div className="flex gap-2">
-                    <Button onClick={startSimulation} disabled={simulationActive}>
-                      Start Simulation
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="gap-1"
-                      disabled={!simulationActive}
-                      onClick={() => {
-                        setTerminalHistory([
-                          "Welcome to Cyber Sim Lab Network Security Terminal",
-                          "Type 'help' to see available commands",
-                        ])
-                        setDetectedThreats(0)
-                        setCompletedTasks([])
-                        setFirewallRules([
-                          { source: "ANY", destination: "192.168.1.0/24", port: 80, action: "ALLOW" },
-                          { source: "ANY", destination: "192.168.1.0/24", port: 443, action: "ALLOW" },
-                          { source: "192.168.1.0/24", destination: "ANY", port: 0, action: "ALLOW" },
-                        ])
-                        setSimulationActive(false)
-                        toast({
-                          title: "Simulation Reset",
-                          description: "The simulation has been reset.",
-                          duration: 3000,
-                        })
-                      }}
-                    >
-                      Reset
-                    </Button>
-                  </div>
-                  <div className="text-sm">
-                    Tasks Completed:{" "}
-                    <span className="font-bold">
-                      {completedTasks.length}/{tasks.length}
+                )}
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button onClick={prevStep} disabled={currentStep === 1} variant="outline">
+                  Previous
+                </Button>
+                <Button onClick={nextStep} disabled={currentStep === totalSteps}>
+                  Next
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+
+          <div>
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Scenario Details</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Difficulty:</span>
+                    <span className="bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-full">
+                      Beginner
                     </span>
                   </div>
-                </CardFooter>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>
-                    Step {currentStep} of {totalSteps}:{" "}
-                    {["Introduction", "Reconnaissance", "Detection", "Mitigation", "Analysis"][currentStep - 1]}
-                  </CardTitle>
-                  <CardDescription>Progress: {Math.round(progress)}%</CardDescription>
-                  <Progress value={progress} className="h-2" />
-                </CardHeader>
-                <CardContent>
-                  {currentStep === 1 && (
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">Welcome to the Network Intrusion Scenario</h3>
-                      <p>
-                        In this simulation, you will learn how to detect and respond to unauthorized network access
-                        attempts. You will be presented with a virtual environment where you can monitor network traffic,
-                        identify suspicious activities, and take appropriate actions to mitigate threats.
-                      </p>
-                      <p>
-                        This scenario will guide you through the process of identifying a brute force SSH attack and
-                        implementing countermeasures to protect your system.
-                      </p>
-                      <div className="bg-muted p-4 rounded-md">
-                        <h4 className="font-medium mb-2">Getting Started:</h4>
-                        <ol className="list-decimal pl-5 space-y-1">
-                          <li>Click "Start Simulation" to begin</li>
-                          <li>Type "help" to see available commands</li>
-                          <li>Type "tasks" to see your objectives</li>
-                          <li>Use "netstat" to view current network connections</li>
-                          <li>Look for suspicious patterns in network traffic</li>
-                        </ol>
-                      </div>
-                    </div>
-                  )}
-                  {currentStep === 2 && (
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">Reconnaissance Phase</h3>
-                      <p>
-                        Start by monitoring your network traffic. Look for unusual patterns or suspicious activities. Pay
-                        special attention to connection attempts on common service ports like SSH (22), FTP (21), and RDP
-                        (3389).
-                      </p>
-                      <div className="bg-muted p-4 rounded-md">
-                        <h4 className="font-medium mb-2">Key Commands:</h4>
-                        <ul className="list-disc pl-5 space-y-1">
-                          <li>
-                            <code>netstat</code> - View current network connections
-                          </li>
-                          <li>
-                            <code>ping [host]</code> - Check connectivity to a host
-                          </li>
-                          <li>
-                            <code>traceroute [host]</code> - Trace the route to a host
-                          </li>
-                          <li>
-                            <code>nmap [host]</code> - Scan a host for open ports
-                          </li>
-                        </ul>
-                      </div>
-                      <p>
-                        Use these commands to gather information about the network and identify any suspicious hosts or
-                        connection attempts.
-                      </p>
-                    </div>
-                  )}
-                  {currentStep === 3 && (
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">Detection Phase</h3>
-                      <p>
-                        Now that you've observed suspicious activity, it's time to identify the type of attack. Multiple
-                        failed login attempts on port 22 (SSH) indicate a possible brute force attack.
-                      </p>
-                      <div className="bg-muted p-4 rounded-md">
-                        <h4 className="font-medium mb-2">Key Commands:</h4>
-                        <ul className="list-disc pl-5 space-y-1">
-                          <li>
-                            <code>analyze [ip]</code> - Analyze traffic from an IP address
-                          </li>
-                          <li>
-                            <code>firewall list</code> - View current firewall rules
-                          </li>
-                        </ul>
-                      </div>
-                      <p>
-                        Use the analyze command on suspicious IP addresses to determine the nature of the attack. Look for
-                        patterns like multiple connection attempts to the same port.
-                      </p>
-                    </div>
-                  )}
-                  {currentStep === 4 && (
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">Mitigation Phase</h3>
-                      <p>
-                        Now that you've identified the threat, it's time to take action to stop the attack. For a brute
-                        force SSH attack, you can block the attacking IP address using the firewall.
-                      </p>
-                      <div className="bg-muted p-4 rounded-md">
-                        <h4 className="font-medium mb-2">Key Commands:</h4>
-                        <ul className="list-disc pl-5 space-y-1">
-                          <li>
-                            <code>block [ip] [port]</code> - Block traffic from an IP address
-                          </li>
-                          <li>
-                            <code>firewall add [src] [dst] [port] [action]</code> - Add a firewall rule
-                          </li>
-                        </ul>
-                      </div>
-                      <p>
-                        Block the malicious IP address to prevent further attack attempts. You can block all traffic from
-                        the IP or specifically target port 22 (SSH).
-                      </p>
-                    </div>
-                  )}
-                  {currentStep === 5 && (
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">Analysis Phase</h3>
-                      <p>
-                        Great job! You've successfully detected and mitigated a brute force SSH attack. Let's analyze what
-                        happened and document the incident.
-                      </p>
-                      <div className="bg-muted p-4 rounded-md">
-                        <h4 className="font-medium mb-2">Key Commands:</h4>
-                        <ul className="list-disc pl-5 space-y-1">
-                          <li>
-                            <code>report</code> - Generate an incident report
-                          </li>
-                        </ul>
-                      </div>
-                      <p>
-                        Generate a report to document the incident, including the attack type, actions taken, and
-                        recommendations for future prevention. This documentation is crucial for security audits and
-                        improving your security posture.
-                      </p>
-                      <p>
-                        Consider implementing additional security measures like SSH key authentication, rate limiting for
-                        login attempts, and intrusion detection systems.
-                      </p>
-                    </div>
-                  )}
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Button onClick={prevStep} disabled={currentStep === 1} variant="outline">
-                    Previous
-                  </Button>
-                  <Button onClick={nextStep} disabled={currentStep === totalSteps}>
-                    Next
-                  </Button>
-                </CardFooter>
-              </Card>
-            </div>
-
-            <div>
-              <Card className="mb-6">
-                <CardHeader>
-                  <CardTitle>Scenario Details</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Difficulty:</span>
-                      <span className="bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-full">
-                        Beginner
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Estimated Time:</span>
-                      <span className="text-sm">30-45 minutes</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Category:</span>
-                      <span className="text-sm">Network Security</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Skills:</span>
-                      <div className="flex flex-wrap gap-1 justify-end">
-                        <span className="bg-muted text-xs px-2 py-1 rounded-full">Monitoring</span>
-                        <span className="bg-muted text-xs px-2 py-1 rounded-full">Detection</span>
-                        <span className="bg-muted text-xs px-2 py-1 rounded-full">Mitigation</span>
-                      </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Estimated Time:</span>
+                    <span className="text-sm">30-45 minutes</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Category:</span>
+                    <span className="text-sm">Network Security</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Skills:</span>
+                    <div className="flex flex-wrap gap-1 justify-end">
+                      <span className="bg-muted text-xs px-2 py-1 rounded-full">Monitoring</span>
+                      <span className="bg-muted text-xs px-2 py-1 rounded-full">Detection</span>
+                      <span className="bg-muted text-xs px-2 py-1 rounded-full">Mitigation</span>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </CardContent>
+            </Card>
 
-              <Card className="mb-6">
-                <CardHeader>
-                  <CardTitle>Tasks</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {tasks.map((task, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        {completedTasks.includes(task) ? (
-                          <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                        ) : (
-                          <div className="h-5 w-5 border rounded-full mt-0.5 shrink-0" />
-                        )}
-                        <span className={completedTasks.includes(task) ? "text-green-500" : ""}>{task}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Tasks</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  {tasks.map((task, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      {completedTasks.includes(task) ? (
+                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                      ) : (
+                        <div className="h-5 w-5 border rounded-full mt-0.5 shrink-0" />
+                      )}
+                      <span className={completedTasks.includes(task) ? "text-green-500" : ""}>{task}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Learning Objectives</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                      <span>Use command-line tools for network monitoring</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                      <span>Identify suspicious network activity</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                      <span>Recognize patterns of brute force attacks</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                      <span>Implement appropriate countermeasures</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                      <span>Document and analyze security incidents</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Learning Objectives</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Use command-line tools for network monitoring</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Identify suspicious network activity</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Recognize patterns of brute force attacks</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Implement appropriate countermeasures</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Document and analyze security incidents</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </main>

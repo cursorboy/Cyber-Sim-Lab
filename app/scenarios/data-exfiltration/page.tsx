@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import { ArrowLeft, CheckCircle, Clock, HelpCircle, Shield, Terminal, User, Search } from "lucide-react"
+import { ArrowLeft, CheckCircle, Clock, HelpCircle, Terminal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -18,13 +18,11 @@ export default function DataExfiltrationScenario() {
   const [simulationActive, setSimulationActive] = useState(false)
   const [terminalInput, setTerminalInput] = useState("")
   const [terminalHistory, setTerminalHistory] = useState<string[]>([
-    "Welcome to CyberDefender Data Exfiltration Terminal",
+    "Welcome to CyberDefender Data Exfiltration Detection Terminal",
     "Type 'help' to see available commands",
   ])
   const [commandHistory, setCommandHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
-  const [selectedFile, setSelectedFile] = useState<number | null>(null)
-  const [analyzedFiles, setAnalyzedFiles] = useState<number[]>([])
   const [detectedExfiltration, setDetectedExfiltration] = useState(0)
   const [completedTasks, setCompletedTasks] = useState<string[]>([])
 
@@ -918,150 +916,400 @@ export default function DataExfiltrationScenario() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <main className="flex-1">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold">Data Exfiltration</h1>
-            <p className="text-muted-foreground">
-              Learn to detect and prevent unauthorized data exfiltration attempts.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <Card className="mb-6">
-                <CardHeader>
-                  <div className="flex justify-between items-center">
-                    <CardTitle>Interactive Terminal</CardTitle>
-                    <div className="flex items-center gap-2">
-                      <div className="text-sm text-muted-foreground flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        <span>45:00</span>
+      <main className="flex-1 container py-8">
+        <div className="flex items-center mb-8">
+          <Link href="/scenarios">
+            <Button variant="ghost" size="sm" className="gap-1">
+              <ArrowLeft className="h-4 w-4" /> Back to Scenarios
+            </Button>
+          </Link>
+          <h1 className="text-3xl font-bold ml-4">Data Exfiltration Scenario</h1>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <Card className="mb-6">
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle>Interactive Terminal</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <div className="text-sm text-muted-foreground flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      <span>45:00</span>
+                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <HelpCircle className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p className="max-w-xs">
+                            Use terminal commands to detect and prevent data exfiltration attempts. Type 'help' to see
+                            available commands.
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                </div>
+                <CardDescription>Detect and prevent unauthorized data transfer</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-black rounded-md p-4 font-mono text-sm text-green-400 h-[400px] flex flex-col">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Terminal className="h-5 w-5" />
+                    <span className="text-white">CyberDefender Terminal</span>
+                  </div>
+                  <div className="flex-1 overflow-auto mb-2" ref={terminalRef}>
+                    {terminalHistory.map((line, index) => (
+                      <div key={index} className="py-0.5 break-words whitespace-pre-wrap">
+                        {line}
                       </div>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <HelpCircle className="h-4 w-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p className="max-w-xs">
-                              Use terminal commands to detect and prevent data exfiltration attempts. Type 'help' to see available commands.
-                            </p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                    ))}
+                  </div>
+                  <div className="flex items-center">
+                    <span className="mr-2">$</span>
+                    <input
+                      ref={inputRef}
+                      type="text"
+                      value={terminalInput}
+                      onChange={(e) => setTerminalInput(e.target.value)}
+                      onKeyDown={handleTerminalInput}
+                      className="flex-1 bg-transparent outline-none"
+                      disabled={!simulationActive}
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => processCommand("netstat")}
+                    disabled={!simulationActive}
+                  >
+                    netstat
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => processCommand("ps")}
+                    disabled={!simulationActive}
+                  >
+                    ps
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => processCommand("help")}
+                    disabled={!simulationActive}
+                  >
+                    help
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => processCommand("tasks")}
+                    disabled={!simulationActive}
+                  >
+                    tasks
+                  </Button>
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <div className="flex gap-2">
+                  <Button onClick={startSimulation} disabled={simulationActive}>
+                    Start Simulation
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="gap-1"
+                    disabled={!simulationActive}
+                    onClick={() => {
+                      setTerminalHistory([
+                        "Welcome to CyberDefender Data Exfiltration Detection Terminal",
+                        "Type 'help' to see available commands",
+                      ])
+                      setDetectedExfiltration(0)
+                      setCompletedTasks([])
+                      setDlpControls((prev) => prev.map((control) => ({ ...control, implemented: false })))
+                      setSimulationActive(false)
+                      toast({
+                        title: "Simulation Reset",
+                        description: "The simulation has been reset.",
+                        duration: 3000,
+                      })
+                    }}
+                  >
+                    Reset
+                  </Button>
+                </div>
+                <div className="text-sm">
+                  Tasks Completed:{" "}
+                  <span className="font-bold">
+                    {completedTasks.length}/{tasks.length}
+                  </span>
+                </div>
+              </CardFooter>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>
+                  Step {currentStep} of {totalSteps}:{" "}
+                  {["Introduction", "Detection", "Analysis", "Prevention", "Response"][currentStep - 1]}
+                </CardTitle>
+                <CardDescription>Progress: {Math.round(progress)}%</CardDescription>
+                <Progress value={progress} className="h-2" />
+              </CardHeader>
+              <CardContent>
+                {currentStep === 1 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Welcome to the Data Exfiltration Scenario</h3>
+                    <p>
+                      In this simulation, you will learn how to detect and prevent unauthorized data transfers from your
+                      organization. Data exfiltration occurs when sensitive information is transferred out of an
+                      organization without authorization, often as part of a cyber attack or insider threat.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Getting Started:</h4>
+                      <ol className="list-decimal pl-5 space-y-1">
+                        <li>Click "Start Simulation" to begin</li>
+                        <li>Type "help" to see available commands</li>
+                        <li>Type "netstat" to view network connections</li>
+                        <li>Type "ps" to view running processes</li>
+                        <li>Type "filelog" to view file access logs</li>
+                      </ol>
                     </div>
                   </div>
-                  <CardDescription>Guide your organization through data exfiltration detection and prevention</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="bg-black rounded-md p-4 font-mono text-sm text-green-400 h-[400px] flex flex-col">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Terminal className="h-5 w-5" />
-                      <span className="text-white">CyberDefender Terminal</span>
+                )}
+                {currentStep === 2 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Detection Phase</h3>
+                    <p>
+                      Start by monitoring network traffic, processes, and file access logs for signs of data
+                      exfiltration. Look for suspicious patterns that might indicate unauthorized data transfers.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Key Commands:</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>
+                          <code>netstat</code> - View network connections
+                        </li>
+                        <li>
+                          <code>ps</code> - View running processes
+                        </li>
+                        <li>
+                          <code>filelog</code> - View file access logs
+                        </li>
+                      </ul>
                     </div>
-                    <div className="flex-1 overflow-auto mb-2" ref={terminalRef}>
-                      {terminalHistory.map((line, index) => (
-                        <div key={index} className="py-0.5 break-words whitespace-pre-wrap">
-                          {line}
-                        </div>
-                      ))}
+                    <p>Common indicators of data exfiltration include:</p>
+                    <ul className="list-disc pl-6 space-y-1">
+                      <li>Unusual outbound network connections to unknown destinations</li>
+                      <li>Large data transfers, especially to external IP addresses</li>
+                      <li>Suspicious processes accessing sensitive files</li>
+                      <li>Unusual file access patterns, especially to confidential data</li>
+                      <li>Unexpected data compression or encryption activities</li>
+                    </ul>
+                  </div>
+                )}
+                {currentStep === 3 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Analysis Phase</h3>
+                    <p>
+                      Once you've identified suspicious activities, analyze them to understand the exfiltration
+                      techniques being used and their potential impact.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Key Commands:</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>
+                          <code>analyze [id]</code> - Analyze a network connection
+                        </li>
+                        <li>
+                          <code>inspect [pid]</code> - Inspect a process
+                        </li>
+                        <li>
+                          <code>examine [id]</code> - Examine a file access log
+                        </li>
+                        <li>
+                          <code>techniques</code> - Learn about exfiltration techniques
+                        </li>
+                      </ul>
                     </div>
-                    <div className="flex items-center">
-                      <span className="mr-2">$</span>
-                      <input
-                        ref={inputRef}
-                        type="text"
-                        value={terminalInput}
-                        onChange={(e) => setTerminalInput(e.target.value)}
-                        onKeyDown={handleTerminalInput}
-                        className="flex-1 bg-transparent outline-none"
-                        disabled={!simulationActive}
-                      />
+                    <p>
+                      Understanding the techniques used by attackers will help you implement effective countermeasures
+                      and prevent data loss.
+                    </p>
+                  </div>
+                )}
+                {currentStep === 4 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Prevention Phase</h3>
+                    <p>
+                      After identifying data exfiltration attempts, it's important to implement controls to prevent
+                      unauthorized data transfers and protect sensitive information.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Key Commands:</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>
+                          <code>block [id]</code> - Block a suspicious network connection
+                        </li>
+                        <li>
+                          <code>kill [pid]</code> - Terminate a suspicious process
+                        </li>
+                        <li>
+                          <code>dlp</code> - View available DLP controls
+                        </li>
+                        <li>
+                          <code>implement [id]</code> - Implement a DLP control
+                        </li>
+                      </ul>
                     </div>
+                    <p>Effective data loss prevention controls include:</p>
+                    <ul className="list-disc pl-6 space-y-1">
+                      <li>Network monitoring and filtering</li>
+                      <li>Data classification and handling policies</li>
+                      <li>Endpoint DLP solutions</li>
+                      <li>Email and web filtering</li>
+                      <li>USB device control</li>
+                    </ul>
                   </div>
-                  <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs"
-                      onClick={() => processCommand("monitor")}
-                      disabled={!simulationActive}
-                    >
-                      monitor
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs"
-                      onClick={() => processCommand("analyze")}
-                      disabled={!simulationActive}
-                    >
-                      analyze
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs"
-                      onClick={() => processCommand("help")}
-                      disabled={!simulationActive}
-                    >
-                      help
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs"
-                      onClick={() => processCommand("tasks")}
-                      disabled={!simulationActive}
-                    >
-                      tasks
-                    </Button>
+                )}
+                {currentStep === 5 && (
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-medium">Response Phase</h3>
+                    <p>
+                      The final step is to document the incident and implement long-term strategies to protect against
+                      future data exfiltration attempts.
+                    </p>
+                    <div className="bg-muted p-4 rounded-md">
+                      <h4 className="font-medium mb-2">Key Command:</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>
+                          <code>report</code> - Generate a comprehensive incident report
+                        </li>
+                      </ul>
+                    </div>
+                    <p>Long-term prevention strategies include:</p>
+                    <ul className="list-disc pl-6 space-y-1">
+                      <li>Implementing comprehensive DLP solutions</li>
+                      <li>Regular security awareness training</li>
+                      <li>Data classification and handling policies</li>
+                      <li>Access controls based on the principle of least privilege</li>
+                      <li>Regular security assessments and monitoring</li>
+                    </ul>
                   </div>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <div className="flex gap-2">
-                    <Button onClick={startSimulation} disabled={simulationActive}>
-                      Start Simulation
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="gap-1"
-                      disabled={!simulationActive}
-                      onClick={() => {
-                        setTerminalHistory([
-                          "Welcome to CyberDefender Data Exfiltration Terminal",
-                          "Type 'help' to see available commands",
-                        ])
-                        setSelectedFile(null)
-                        setAnalyzedFiles([])
-                        setDetectedExfiltration(0)
-                        setCompletedTasks([])
-                        setSimulationActive(false)
-                        toast({
-                          title: "Simulation Reset",
-                          description: "The simulation has been reset.",
-                          duration: 3000,
-                        })
-                      }}
-                    >
-                      <Search className="h-4 w-4" />
-                      Reset
-                    </Button>
-                  </div>
-                  <div className="text-sm">
-                    Tasks Completed:{" "}
-                    <span className="font-bold">
-                      {completedTasks.length}/{tasks.length}
+                )}
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button onClick={prevStep} disabled={currentStep === 1} variant="outline">
+                  Previous
+                </Button>
+                <Button onClick={nextStep} disabled={currentStep === totalSteps}>
+                  Next
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+
+          <div>
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Scenario Details</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Difficulty:</span>
+                    <span className="bg-red-500/10 text-red-500 text-xs font-medium px-2 py-1 rounded-full">
+                      Advanced
                     </span>
                   </div>
-                </CardFooter>
-              </Card>
-            </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Estimated Time:</span>
+                    <span className="text-sm">60-90 minutes</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Category:</span>
+                    <span className="text-sm">Data Security</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Skills:</span>
+                    <div className="flex flex-wrap gap-1 justify-end">
+                      <span className="bg-muted text-xs px-2 py-1 rounded-full">Detection</span>
+                      <span className="bg-muted text-xs px-2 py-1 rounded-full">Analysis</span>
+                      <span className="bg-muted text-xs px-2 py-1 rounded-full">Prevention</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Tasks</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  {tasks.map((task, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      {completedTasks.includes(task) ? (
+                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                      ) : (
+                        <div className="h-5 w-5 border rounded-full mt-0.5 shrink-0" />
+                      )}
+                      <span className={completedTasks.includes(task) ? "text-green-500" : ""}>{task}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Learning Objectives</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Identify indicators of data exfiltration</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Analyze network traffic for suspicious data transfers</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Recognize common data exfiltration techniques</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Implement data loss prevention controls</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                    <span>Respond to and document data exfiltration incidents</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </main>
+      <footer className="border-t bg-muted/40">
+        <div className="container py-6 text-center text-sm text-muted-foreground">
+          © 2025 CyberDefender. All rights reserved.
+        </div>
+      </footer>
     </div>
   )
 }
