@@ -62,24 +62,27 @@ export default function ScenariosPage() {
   }, [user])
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <main className="flex-1 container py-8">
-        <div className="flex items-center mb-8">
+    <div className="flex-1">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex items-center justify-between mb-8">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-bold tracking-tight">Training Scenarios</h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              Choose a scenario to start your hands-on cybersecurity training
+            </p>
+          </div>
           <Link href="/">
-            <Button variant="ghost" size="sm" className="gap-1">
-              <ArrowLeft className="h-4 w-4" /> Back
+            <Button variant="outline" className="gap-2">
+              <ArrowLeft className="h-4 w-4" /> Back to Home
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold ml-4">Training Scenarios</h1>
         </div>
 
-        <Tabs defaultValue="all" className="w-full">
-          <TabsList className="mb-6">
+        <Tabs defaultValue="all" className="space-y-8">
+          <TabsList className="bg-muted/50">
             <TabsTrigger value="all">All Scenarios</TabsTrigger>
-            <TabsTrigger value="network">Network</TabsTrigger>
-            <TabsTrigger value="malware">Malware</TabsTrigger>
-            <TabsTrigger value="social">Social Engineering</TabsTrigger>
-            <TabsTrigger value="forensics">Forensics</TabsTrigger>
+            <TabsTrigger value="in-progress">In Progress</TabsTrigger>
+            <TabsTrigger value="completed">Completed</TabsTrigger>
           </TabsList>
           <TabsContent value="all" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -276,44 +279,26 @@ export default function ScenariosPage() {
               </Link>
             </div>
           </TabsContent>
-          <TabsContent value="network">
-            {/* Network specific scenarios would go here */}
+          <TabsContent value="in-progress">
+            {/* In progress scenarios would go here */}
             <div className="text-center py-12">
               <div className="inline-block bg-primary/10 text-primary font-medium px-3 py-1 rounded-md mb-4">
                 Coming Soon
               </div>
-              <p className="text-muted-foreground">New network security scenarios are currently in development.</p>
+              <p className="text-muted-foreground">New scenarios are currently in progress.</p>
             </div>
           </TabsContent>
-          <TabsContent value="malware">
-            {/* Malware specific scenarios would go here */}
+          <TabsContent value="completed">
+            {/* Completed scenarios would go here */}
             <div className="text-center py-12">
               <div className="inline-block bg-primary/10 text-primary font-medium px-3 py-1 rounded-md mb-4">
                 Coming Soon
               </div>
-              <p className="text-muted-foreground">New malware security scenarios are currently in development.</p>
-            </div>
-          </TabsContent>
-          <TabsContent value="social">
-            {/* Social engineering specific scenarios would go here */}
-            <div className="text-center py-12">
-              <div className="inline-block bg-primary/10 text-primary font-medium px-3 py-1 rounded-md mb-4">
-                Coming Soon
-              </div>
-              <p className="text-muted-foreground">New social security scenarios are currently in development.</p>
-            </div>
-          </TabsContent>
-          <TabsContent value="forensics">
-            {/* Forensics specific scenarios would go here */}
-            <div className="text-center py-12">
-              <div className="inline-block bg-primary/10 text-primary font-medium px-3 py-1 rounded-md mb-4">
-                Coming Soon
-              </div>
-              <p className="text-muted-foreground">New forensics security scenarios are currently in development.</p>
+              <p className="text-muted-foreground">All scenarios are completed.</p>
             </div>
           </TabsContent>
         </Tabs>
-      </main>
+      </div>
       <footer className="border-t bg-muted/40">
         <div className="container py-6 text-center text-sm text-muted-foreground">
           © 2025 Cyber Sim Lab. All rights reserved.

@@ -6,30 +6,6 @@ import { Button } from "@/components/ui/button"
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center gap-2 font-semibold">
-              <Shield className="h-6 w-6" />
-              <span>Cyber Sim Lab</span>
-            </div>
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">Home</Link>
-              <Link href="/dashboard" className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">Dashboard</Link>
-              <Link href="/scenarios" className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">Scenarios</Link>
-              <Link href="/resources" className="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">Resources</Link>
-            </nav>
-            <div className="flex items-center gap-4">
-              <Link href="/sign-in">
-                <Button variant="ghost" className="text-sm">Sign In</Button>
-              </Link>
-              <Link href="/sign-up">
-                <Button className="text-sm bg-black text-white hover:bg-gray-800">Sign Up</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

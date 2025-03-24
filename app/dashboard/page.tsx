@@ -130,92 +130,22 @@ export default function DashboardPage() {
   const completionPercentage = Math.round((completedScenarios / totalScenarios) * 100)
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <main className="flex-1 container py-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
-          <div>
-            <h1 className="text-3xl font-bold">Dashboard</h1>
-            <p className="text-muted-foreground">Track your progress and continue your cybersecurity training</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" className="gap-2">
-              <Calendar className="h-4 w-4" />
-              <span>Training Calendar</span>
-            </Button>
-            <Link href="/scenarios">
-              <Button className="gap-2">
-                <Zap className="h-4 w-4" />
-                <span>Start New Scenario</span>
-              </Button>
-            </Link>
+    <div className="flex-1">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex items-center justify-between mb-8">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              Track your progress and achievements
+            </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Scenarios Completed</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <div className="text-3xl font-bold">
-                  {completedScenarios}/{totalScenarios}
-                </div>
-                <div className="p-2 bg-primary/10 rounded-full">
-                  <CheckCircle className="h-6 w-6 text-primary" />
-                </div>
-              </div>
-              <Progress value={completionPercentage} className="h-2 mt-4" />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Training Hours</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <div className="text-3xl font-bold">{profile?.training_hours || 0}</div>
-                <div className="p-2 bg-primary/10 rounded-full">
-                  <Clock className="h-6 w-6 text-primary" />
-                </div>
-              </div>
-              <div className="text-xs text-muted-foreground mt-4">
-                {profile?.training_hours ? `+${profile.training_hours} hours this week` : "No training yet this week"}
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Skill Level</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <div className="text-3xl font-bold">
-                  {profile?.level === 1
-                    ? "Beginner"
-                    : profile?.level === 2
-                      ? "Intermediate"
-                      : profile?.level === 3
-                        ? "Advanced"
-                        : "Expert"}
-                </div>
-                <div className="p-2 bg-primary/10 rounded-full">
-                  <Trophy className="h-6 w-6 text-primary" />
-                </div>
-              </div>
-              <div className="text-xs text-muted-foreground mt-4">
-                {profile ? `${profile.xp_needed - profile.xp} XP to next level` : ""}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="mb-6">
+        <Tabs defaultValue="overview" className="space-y-8">
+          <TabsList className="bg-muted/50">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="progress">Progress</TabsTrigger>
             <TabsTrigger value="achievements">Achievements</TabsTrigger>
-            <TabsTrigger value="learning">Learning Path</TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -693,147 +623,8 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           </TabsContent>
-          <TabsContent value="learning">
-            <Card>
-              <CardHeader>
-                <CardTitle>Your Learning Path</CardTitle>
-                <CardDescription>Recommended training sequence based on your goals</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-8">
-                  <div className="flex items-start gap-4">
-                    <div
-                      className={`${profile?.level && profile.level >= 1 ? "bg-primary" : "bg-muted"} text-${profile?.level && profile.level >= 1 ? "primary-foreground" : "muted-foreground"} w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0`}
-                    >
-                      1
-                    </div>
-                    <div className="flex-1 pt-1">
-                      <h3 className="font-medium">Cybersecurity Fundamentals</h3>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        Learn the basics of cybersecurity principles and practices
-                      </p>
-                      <div className="flex items-center gap-2">
-                        {profile?.level && profile.level >= 1 ? (
-                          <>
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm text-green-500">Completed</span>
-                          </>
-                        ) : (
-                          <>
-                            <Clock className="h-4 w-4 text-muted-foreground" />
-                            <span className="text-sm text-muted-foreground">Not Started</span>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div
-                      className={`${profile?.level && profile.level >= 2 ? "bg-primary" : profile?.level === 1 ? "bg-primary" : "bg-muted"} text-${profile?.level && profile.level >= 2 ? "primary-foreground" : profile?.level === 1 ? "primary-foreground" : "muted-foreground"} w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0`}
-                    >
-                      2
-                    </div>
-                    <div className="flex-1 pt-1">
-                      <h3 className="font-medium">Network Security Essentials</h3>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        Master the fundamentals of securing networks and detecting intrusions
-                      </p>
-                      {profile?.level && profile.level >= 2 ? (
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-500" />
-                          <span className="text-sm text-green-500">Completed</span>
-                        </div>
-                      ) : profile?.level === 1 ? (
-                        <div className="flex items-center gap-2">
-                          <Activity className="h-4 w-4 text-primary" />
-                          <span className="text-sm text-primary">
-                            In Progress ({Math.round((profile.xp / profile.xp_needed) * 100)}%)
-                          </span>
-                          <Progress value={Math.round((profile.xp / profile.xp_needed) * 100)} className="h-1.5 mt-2" />
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <Clock className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm text-muted-foreground">Not Started</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div
-                      className={`${profile?.level && profile.level >= 3 ? "bg-primary" : "bg-muted"} text-${profile?.level && profile.level >= 3 ? "primary-foreground" : "muted-foreground"} w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0`}
-                    >
-                      3
-                    </div>
-                    <div className="flex-1 pt-1">
-                      <h3 className="font-medium">Malware Analysis & Response</h3>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        Learn to identify, analyze, and neutralize malicious software
-                      </p>
-                      {profile?.level && profile.level >= 3 ? (
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-500" />
-                          <span className="text-sm text-green-500">Completed</span>
-                        </div>
-                      ) : profile?.level === 2 ? (
-                        <div className="flex items-center gap-2">
-                          <Activity className="h-4 w-4 text-primary" />
-                          <span className="text-sm text-primary">
-                            In Progress ({Math.round((profile.xp / profile.xp_needed) * 100)}%)
-                          </span>
-                          <Progress value={Math.round((profile.xp / profile.xp_needed) * 100)} className="h-1.5 mt-2" />
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <Clock className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm text-muted-foreground">Not Started</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div
-                      className={`${profile?.level && profile.level >= 4 ? "bg-primary" : "bg-muted"} text-${profile?.level && profile.level >= 4 ? "primary-foreground" : "muted-foreground"} w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0`}
-                    >
-                      4
-                    </div>
-                    <div className="flex-1 pt-1">
-                      <h3 className="font-medium">Social Engineering Defense</h3>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        Develop skills to recognize and counter manipulation tactics
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">Not Started</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="bg-muted text-muted-foreground w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">
-                      5
-                    </div>
-                    <div className="flex-1 pt-1">
-                      <h3 className="font-medium">Incident Response & Forensics</h3>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        Learn advanced techniques for responding to and investigating security incidents
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">Not Started</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Link href="/scenarios">
-                  <Button className="w-full">Continue Your Learning Path</Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          </TabsContent>
         </Tabs>
-      </main>
+      </div>
       <footer className="border-t bg-muted/40">
         <div className="container py-6 text-center text-sm text-muted-foreground">
           © 2025 Cyber Sim Lab. All rights reserved.
