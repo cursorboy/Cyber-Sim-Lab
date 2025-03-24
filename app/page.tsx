@@ -6,34 +6,64 @@ import { Button } from "@/components/ui/button"
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 items-center">
+          <div className="flex items-center gap-2 font-semibold">
+            <Shield className="h-6 w-6" />
+            <span>Cyber Sim Lab</span>
+          </div>
+          <nav className="flex flex-1 items-center justify-center space-x-6 text-sm font-medium">
+            <Link href="/" className="transition-colors hover:text-foreground/80">Home</Link>
+            <Link href="/dashboard" className="transition-colors hover:text-foreground/80">Dashboard</Link>
+            <Link href="/scenarios" className="transition-colors hover:text-foreground/80">Scenarios</Link>
+            <Link href="/resources" className="transition-colors hover:text-foreground/80">Resources</Link>
+          </nav>
+          <div className="flex items-center gap-2">
+            <Link href="/sign-in">
+              <Button variant="ghost" className="text-sm">Sign In</Button>
+            </Link>
+            <Link href="/sign-up">
+              <Button className="text-sm bg-black text-white hover:bg-gray-800">Sign Up</Button>
+            </Link>
+          </div>
+        </div>
+      </header>
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+        <section className="w-full py-6 md:py-12 lg:py-16">
           <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
+            <div className="grid gap-6 lg:grid-cols-[1fr,1fr] lg:gap-12 items-center">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl/none">
                     Master Cybersecurity Through Simulation
                   </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                  <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
                     Practice defending against real-world cyber threats in a safe, controlled environment. Build skills
                     through hands-on scenarios.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link href="/scenarios">
-                    <Button className="bg-black text-white hover:bg-gray-800">
+                    <Button className="bg-black text-white hover:bg-gray-800 px-6">
                       Start Training <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                   <Link href="/resources">
-                    <Button variant="outline">Explore Resources</Button>
+                    <Button variant="outline" className="px-6">Explore Resources</Button>
                   </Link>
                 </div>
               </div>
-              <div className="flex items-center justify-center">
-                <div className="relative w-full max-w-[500px] h-[350px] bg-[#222222] rounded-xl overflow-hidden shadow-lg">
-                  <div className="absolute inset-0 p-4 font-mono text-sm overflow-auto">
+              <div className="flex items-center justify-center lg:justify-end">
+                <div className="relative w-full max-w-[500px] h-[350px] bg-[#1a1a1a] rounded-lg overflow-hidden shadow-2xl border border-gray-800">
+                  <div className="absolute top-0 left-0 right-0 h-8 bg-[#2a2a2a] flex items-center px-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <span className="ml-4 text-sm text-gray-400">Cyber Sim Lab Terminal</span>
+                  </div>
+                  <div className="absolute inset-0 pt-8 p-4 font-mono text-sm overflow-auto">
                     <div className="flex items-center gap-2 mb-4">
                       <span className="text-green-400">{">"}</span>
                       <span className="text-gray-300">Cyber Sim Lab Terminal</span>
@@ -71,10 +101,10 @@ export default function Home() {
                         <span className="text-green-400 mr-2">$</span>
                         <span className="text-green-400">initiating countermeasures...</span>
                       </div>
-                      <div className="text-white mt-2">How will you respond?</div>
+                      <div className="text-white mt-4">How will you respond?</div>
                       <div className="flex mt-1">
-                        <span className="text-green-400 mr-2">-</span>
-                        <span className="animate-pulse">_</span>
+                        <span className="text-green-400 mr-2">_</span>
+                        <span className="animate-pulse">|</span>
                       </div>
                     </div>
                   </div>
